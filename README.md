@@ -6,17 +6,17 @@ cd fixit
 # create python environtment
 pyhton3 -m venv env
 
-#activate env (mandatory)!!
+# activate env (mandatory)!!
 source env/bin/activate
 
 # install dependency
 pip install -r requirements.py (make sure you at right directory)
 
-#database migration (make sure manage.py in the current directory) 
+# database migration (make sure manage.py in the current directory) 
 python3 manage.py makemigrations fixit_frw
 python3 manage.py migrate
 
-#create super user
+# create super user
 python3 manage.py 
 
 # run the server
