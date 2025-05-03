@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+ <div class="form-wrap align-items-center" style="width: 500px; border-radius: 8px; margin: 2px; background-color:rgb(255, 255, 255); ">
+  <h2 style="">LOGIN</h2>
+  <form method="POST" >
+  {% csrf_token %}
+  {{form}}
+  <button type="submit">Submit</button>
+  </form>
+</div>
+
+{% endblock content %}a
