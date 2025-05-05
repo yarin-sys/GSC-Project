@@ -4,3 +4,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     phone = models.CharField(null=True, blank=True,unique=True, max_length=20)
     address = models.TextField()
+    profile_pict = models.ImageField(upload_to='profile/', null=False, blank=False)
+    
+class Items(models.Model):
+    pass

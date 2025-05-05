@@ -1,10 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="form-wrap" style="border-radius: 7.5px; width: 550px; height: 900px; font-size: 10px;"  >
+  <div class="form-wrap" style="border-radius: 7.5px; width: 550px; height: fit-content; font-size: 10px;"  >
     <h2><b>Buat Akun</b></h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
+      {% if form.errors %}
+      <ul style="color: red;">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <li>{{ field.label }}: {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
       <button type="submit" style="background-color:rgb(184, 109, 17); padding: 15px; border-radius: 5px; color:white;" class="">Submit</button>
     </form>
     <a class="signup-link" style="background-color:rgb(4, 25, 182); padding: 15px; border-radius: 5px; color:white;" href="{% url 'login' %}"><b>Login</b></a>

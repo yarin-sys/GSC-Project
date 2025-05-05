@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'fixit_frw',
+    'api',
     'rest_framework',
     'corsheaders',
     'crispy_forms',
@@ -103,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fixit',
         'USER': 'vidky',
-        'PASSWORD': 'vickyganteng&&',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432'
     }
