@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
@@ -8,6 +8,12 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
+from rest_framework import generics
+from .serializers import ItemsSerializer, UserSerializer
+from .models import Items
+
+User = get_user_model()
 
 # Create your views here.
 def user_login(request):
@@ -66,3 +72,15 @@ class SignUpView(APIView):
             form.save()
             return Response({"message": "Profil diperbarui (parsial)"})
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ItemsView(  StaffEditorPermissionMixin, 
+                  UserQuerySetMixin, 
+                  generics.ListCreateAPIView):
+    
+    queryset = Items.objects.all().select_related('user')
+    serializer_class = ItemsSerializer
+    
+class UserList(StaffEditorPermissionMixin, 
+               generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
