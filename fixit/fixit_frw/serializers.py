@@ -9,10 +9,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'address','phone', 'profile_pict']  
         
+# Serializer for fixer
 class ItemsSerializer(serializers.ModelSerializer):
+    picture = serializers.ImageField(read_only=True)
+    price_offered = serializers.ReadOnlyField()
     class Meta:
         model = Items
-        fields = ['user','created', 'item_name', 'picture', 'rate', 'deskripsi', 'pick_address', 'price_offered', 'price_final']
+        fields = ['id','created', 'item_name', 'rate', 'picture',
+                  'deskripsi', 'pick_address', 'price_offered','price_final' ,'fixed']
         
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
@@ -22,5 +26,24 @@ class ItemsSerializer(serializers.ModelSerializer):
         if value <= 0:
             raise serializers.ValidationError("price_offered must be grather than 0")
         return value
+    
+#Serializer for user
+class ItemOrdeersSerializer(serializers.ModelSerializer):
+    price_final  = serializers.ReadOnlyField()
+    fixed = serializers.ReadOnlyField()
+    class Meta:
+        model = Items
+        fields = ['id','created', 'item_name', 'picture', 'rate', 
+                  'deskripsi', 'pick_address', 'price_offered','price_final' ,'fixed']
         
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)
+    
+    def validate_price_offered(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("price_offered must be grather than 0")
+        return value
+    
+            
     

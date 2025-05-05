@@ -7,7 +7,7 @@ class   StaffEditorPermissionMixin():
     
 class UserQuerySetMixin():
     user_field = 'user'
-    allow_staff_view = False
+    allow_staff_view = True
     
     def get_queryset(self, *args, **kwargs):
         user = self.request.user

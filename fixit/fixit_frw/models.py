@@ -14,24 +14,29 @@ class Items(models.Model):
         DANGEROUS = 4
         EXTREME =5
     
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='items', default=1)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='items')
     created = models.DateTimeField(auto_now_add=True)
     item_name = models.CharField(max_length=150, db_index=True, default='')
-    picture = models.ImageField(upload_to='items/', null=False, blank=False, default='broken.jpg')
+    picture = models.ImageField(upload_to='items/', null=False, blank=False)
     rate = models.IntegerField(default=2, choices=Level.choices)
-    deskripsi = models.TextField(blank=False, null=False, default='Please fix it')
-    pick_address = models.TextField(null=True, blank=True, default='')
+    deskripsi = models.TextField(blank=False, null=False)
+    pick_address = models.TextField(null=True, blank=True)
     price_offered = models.BigIntegerField(null=True, blank=True)
     price_final = models.BigIntegerField(null=True, blank=True)
+    fixed = models.BooleanField(default=False, null=False, blank=False)
     
     class Meta:
-        ordering = ['-rate']
+        ordering = ['created']
         db_table = 'items'
     
     def __str__(self):
-        return f"{self.item_name}({self.user}), damage level : {self.rate}"
+        if self.fixed:
+            msg = "Fixed"
+        else:
+            msg="Processed"
+        return f"{self.item_name}({self.user } => {self.created})[{msg}]"
     
-    # def save(self, *args, **kwargs):
-    #     if not self.pick_address and self.user:
-    #         self.pick_address = self.user.address
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.pick_address and self.user:
+            self.pick_address = self.user.address
+        super().save(*args, **kwargs)

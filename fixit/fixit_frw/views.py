@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 from rest_framework import generics
-from .serializers import ItemsSerializer, UserSerializer
+from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer
 from .models import Items
 
 User = get_user_model()
@@ -75,10 +75,42 @@ class SignUpView(APIView):
     
 class ItemsView(  StaffEditorPermissionMixin, 
                   UserQuerySetMixin, 
-                  generics.ListCreateAPIView):
+                  generics.ListCreateAPIView
+                  ):
     
     queryset = Items.objects.all().select_related('user')
-    serializer_class = ItemsSerializer
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return ItemsSerializer
+        return ItemOrdeersSerializer
+    
+class ItemDetailView(   StaffEditorPermissionMixin, 
+                        UserQuerySetMixin, 
+                        generics.RetrieveUpdateDestroyAPIView
+                    ):
+    # queryset = Items.objects.all().select_related('user')
+    lookup_fields = ['pk']
+    
+    def get_queryset(self):
+        qs = Items.objects.all().select_related('user')
+        return qs
+    
+    def get_object(self):
+        queryset = self.get_queryset()             # Get the base queryset
+        queryset = self.filter_queryset(queryset)  # Apply any filter backends
+        filter = {}
+        for field in self.lookup_fields:
+            if self.kwargs.get(field): # Ignore empty fields.
+                filter[field] = self.kwargs[field]
+        obj = get_object_or_404(queryset, **filter)  # Lookup the object
+        self.check_object_permissions(self.request, obj)
+        return obj
+    
+    def get_serializer_class(self):
+        if self.request.user.is_staff:
+            return ItemsSerializer
+        return ItemOrdeersSerializer
+
     
 class UserList(StaffEditorPermissionMixin, 
                generics.ListAPIView):

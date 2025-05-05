@@ -13,6 +13,7 @@ urlpatterns = [
     # path('user/<int:pk>/', views.UserDetail.as_view(), name='user-detail'),
     
     path("items/", views.ItemsView.as_view(), name="item_list"),
+    path("item/<int:pk>", views.ItemDetailView.as_view(), name="item_detail"),
     
 ]
 
