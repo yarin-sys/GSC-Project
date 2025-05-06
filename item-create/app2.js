@@ -36,22 +36,23 @@ window.addEventListener("load", (event) => {
             },
             body: itemsFormData
         })
-        .then(response => response.json())
-        .then((data) => {
+        .then(async response => {
+            const data = await response.json();  // tetap ambil JSON untuk tahu pesan error
+        
+            if (!response.ok) {
+                // contoh error handling spesifik
+                if (data.price_offered && data.price_offered[0]) {
+                    warningPrice.innerHTML = `<p>${data.price_offered[0]}</p>`;
+                }
+                throw new Error(`Server Error: ${response.status}`);
+            }
+        
             const isValid = isTokenNotValid(data);
             if (isValid) {
                 console.log('Response:', data);
-
-                if (data.price_offered[0]){
-                    console.log(data.price_offered[0]);
-                    document.getElementById('warning-price').innerHTML = `<p>${data.price_offered[0]}</p>`;
-                }
-
                 alert("Data berhasil dikirim");
                 itemsForm.reset();
-                window.location.href = "http://localhost:8000/items";
-                
-        
+                window.location.href = "http://localhost:5500/item-list/index.html";
             }
         })
         .catch(error => {

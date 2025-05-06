@@ -36,9 +36,9 @@ function handleLogin(event){
     .then((data) => {
             handleAuthData(data);
 
-            // if (data) {
-            //     window.location.href = "http://127.0.0.1:5501/search/index.html";
-            // }
+            if (data) {
+                window.location.href = "http://127.0.0.1:5500/item-list/index.html";
+            }
     })
     .catch((error) =>{
         console.log(error);
