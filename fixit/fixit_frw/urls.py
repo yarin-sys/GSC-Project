@@ -7,7 +7,6 @@ urlpatterns = [
     path('signup/', views.authView, name="authView"),
     path('signup2/', views.SignUpView.as_view(), name="SignUpView"),
     path("accounts/", include("django.contrib.auth.urls")),
-    path('api-auth/', include('rest_framework.urls')),
     
     path('users/', views.UserList.as_view(), name='user-list'),
     # path('user/<int:pk>/', views.UserDetail.as_view(), name='user-detail'),

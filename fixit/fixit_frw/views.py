@@ -73,22 +73,26 @@ class SignUpView(APIView):
             return Response({"message": "Profil diperbarui (parsial)"})
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
     
+# get all items
 class ItemsView(  StaffEditorPermissionMixin, 
                   UserQuerySetMixin, 
                   generics.ListCreateAPIView
                   ):
-    
+    parser_classes = [MultiPartParser, FormParser]
     queryset = Items.objects.all().select_related('user')
+    
     def get_serializer_class(self):
         if self.request.user.is_staff:
             return ItemsSerializer
         return ItemOrdeersSerializer
     
+# get detail item
 class ItemDetailView(   StaffEditorPermissionMixin, 
                         UserQuerySetMixin, 
                         generics.RetrieveUpdateDestroyAPIView
                     ):
     # queryset = Items.objects.all().select_related('user')
+    parser_classes = [MultiPartParser, FormParser]
     lookup_fields = ['pk']
     
     def get_queryset(self):

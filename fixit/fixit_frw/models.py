@@ -6,6 +6,10 @@ class User(AbstractUser):
     address = models.TextField()
     profile_pict = models.ImageField(upload_to='profile/', null=False, blank=False)
     
+    def delete(self, *args, **kwargs):
+        self.picture.delete(save=False)  # Tambahkan save=False agar tidak error
+        super().delete(*args, **kwargs)
+    
 class Items(models.Model):
     class Level(models.IntegerChoices):
         LOW = 1
@@ -40,3 +44,8 @@ class Items(models.Model):
         if not self.pick_address and self.user:
             self.pick_address = self.user.address
         super().save(*args, **kwargs)
+        
+    def delete(self, *args, **kwargs):
+        self.picture.delete(save=False)  # Tambahkan save=False agar tidak error
+        super().delete(*args, **kwargs)
+        
