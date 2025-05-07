@@ -37,7 +37,7 @@ function handleLogin(event){
             handleAuthData(data);
 
             if (data) {
-                window.location.href = "http://127.0.0.1:5500/item-list/index.html";
+                window.location.href = "http://127.0.0.1:5500/profile/index.html";
             }
     })
     .catch((error) =>{
@@ -46,7 +46,7 @@ function handleLogin(event){
 
 }
 
-// storing access and refresh token in local storage
+// storing access and refresh token in browser local storage
 function handleAuthData(authData) {
     localStorage.setItem('access', authData.access);
     localStorage.setItem('refresh', authData.refresh);

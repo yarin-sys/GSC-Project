@@ -21,7 +21,7 @@ if (authToken) {
   console.log("User ID:", userId_int);
 
   // Contoh fetch ke endpoint user
-  fetch(`http://127.0.0.1:8000/user/${userId_int}/`, {
+  fetch(`http://127.0.0.1:8000/user/${userId_int}`, {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${authToken}`,
