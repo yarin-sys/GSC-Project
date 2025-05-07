@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Q
 
 class User(AbstractUser):
     phone = models.CharField(null=True, blank=True,unique=True, max_length=20)
@@ -9,6 +10,24 @@ class User(AbstractUser):
     def delete(self, *args, **kwargs):
         self.picture.delete(save=False)  # Tambahkan save=False agar tidak error
         super().delete(*args, **kwargs)
+        
+class ItemQuerySet(models.QuerySet):
+    def search(self, query, user=None):
+        lookup = Q(item_name__icontains=query)
+        qs = self.filter(lookup)
+        
+        if user is not None:
+            qs2 = self.filter(user=user).filter(lookup)
+            qs = (qs | qs2).distinct()
+            
+        return qs
+
+class ItemManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        return ItemQuerySet(self.model, using=self._db)
+
+    def search(self, query, user=None):
+        return self.get_queryset().search(query, user=user)
     
 class Items(models.Model):
     class Level(models.IntegerChoices):
@@ -28,6 +47,8 @@ class Items(models.Model):
     price_offered = models.BigIntegerField(null=True, blank=True)
     price_final = models.BigIntegerField(null=True, blank=True)
     fixed = models.BooleanField(default=False, null=False, blank=False)
+    
+    objects = ItemManager()
     
     class Meta:
         ordering = ['created']

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     
     'fixit_frw',
     'api',
+    'search',
     'rest_framework',
     'corsheaders',
     'crispy_forms',
@@ -67,13 +68,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'fixit.urls'
-
+CORS_URL_REGEX = r"^/api/.*"
 CORS_ALLOWED_ORIGINS  = []
 
 # allowed cors only in development server when DEBUG=True
 if DEBUG:
     CORS_ALLOWED_ORIGINS += [
         'http://127.0.0.1:5500',
+        'http://localhost:5500',
         'http://127.0.0.1:8000',
     ]
 

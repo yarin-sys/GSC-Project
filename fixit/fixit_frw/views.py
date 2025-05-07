@@ -120,3 +120,11 @@ class UserList(StaffEditorPermissionMixin,
                generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    
+class UserDetail(   StaffEditorPermissionMixin, 
+                    generics.RetrieveUpdateAPIView
+                    ):
+    
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    lookup_field = 'pk'
