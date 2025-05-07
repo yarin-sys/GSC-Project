@@ -7,8 +7,8 @@ from fixit_frw.serializers import ItemOrdeersSerializer
 from api.mixins import UserQuerySetMixin
 
 class SearchItemListView(
-                            generics.ListAPIView,
-                            UserQuerySetMixin
+                            UserQuerySetMixin,
+                            generics.ListAPIView   
                         ):
     queryset = Items.objects.all()
     serializer_class = ItemOrdeersSerializer
