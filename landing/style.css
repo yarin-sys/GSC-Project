@@ -120,19 +120,10 @@ section {
   animation: scrollanimation 0.9s ease-in-out;
 }
 
-.user {
-  animation: scrollanimation 0.9s;
-  animation-timeline: view();
-  animation-range: entry 0 cover 70%;
-}
-
-.community {
-  animation: scrollanimation 0.9s ease-in-out;
-  animation-timeline: view();
-  animation-range: entry 0 cover 70%;
-}
+.user,
+.community,
 .repairer {
-  animation: scrollanimation 0.9s ease-in-out;
+  animation: scrollanimation 0.9s;
   animation-timeline: view();
   animation-range: entry 0 cover 70%;
 }
@@ -230,4 +221,23 @@ li {
     scale: 1;
     opacity: 1;
   }
+}
+
+@media (max-width: 1500px) {
+  .container-section {
+    flex-direction: column;
+    padding: 0rem 2rem;
+    margin: 8rem 0rem 12rem;
+  }
+
+  .container-list ul li a {
+    font-size: 18px;
+  }
+
+  .text-desc {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 722px) {
 }
