@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item History</title>
+    <title>Profile</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-    <!-- Login => "http://127.0.0.1:5500/signup-login/login/index.html" -->
+    
+    <!-- create item => "http://127.0.0.1:5500/item-create/index.html" -->
     <!-- sign up(from django server) => "http://127.0.0.1:8000/signup/" -->
-    <!-- Create Item => "http://127.0.0.1:5500/item-create/index.html" -->
+    <!-- History => http://127.0.0.1:5500/item-list/index.html -->
     <!-- Profile => "http://127.0.0.1:5500/profile/index.html" -->
+    <!-- login => "http://127.0.0.1:5500/signup-login/login/index.html" -->
 
     <header class="">
+
         <div class="">
-            <a href="http://127.0.0.1:5500/item-create/index.html">Items Create</a>
+            <a href="http://127.0.0.1:5500/item-create/index.html">create item</a>
+        </div>
+        <div class="">
+            <a href="http://127.0.0.1:5500/item-list/index.html">Item List</a>
+        </div>
+        <div class="">
+            <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
         </div>
         <div class="">
             <a href="http://127.0.0.1:5500/signup-login/login/index.html">Login</a>
@@ -24,20 +32,16 @@
         <div class=""> 
             <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
         </div>
-        <div class="">
-            <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
-        </div>
     </header>
 
     <div class="container mt-5">
-        <div id="content-container" class="mt-4">
+        <div id="profile-container" class="mt-4">
             <!-- put the content there -->
         </div>
     </div>
-    
-    
-    <script src="./app.js"></script>
-    <!-- Bootstrap JS -->
+
+    <script  type="module"  src="./app.js"></script>
+        <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
