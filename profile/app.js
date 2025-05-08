@@ -34,15 +34,15 @@ if (authToken) {
     if (isValidData && data){
         let htmlStr = "";
         htmlStr +=  `
-        <div class="card mb-3 shadow-sm" id="card">
-            <div class="card-body">
-                <img src="${data.profile_pict}" class="card-img-top img-fluid mx-auto d-block mt-3" 
-                alt="${data.username}" style="width: 100px; height:100px; object-fit: cover;">
-                <h5 class="card-title">${data.username}</h5>
-                 <p class="card-text"><strong>Alamat:</strong> ${data.address} </p>
-                <p class="card-text"><strong>No Telepon:</strong> ${data.phone} </p>
+
+            <img src="${data.profile_pict}" class="card-img-top img-fluid  d-block mt-3" alt="${data.username}" style="width: 100px; height:100px; object-fit: cover;">
+            <div class="p-3">
+            
             </div>
-        </div>
+            <h5 class="card-title">${data.username}</h5>
+            <p class="card-text"><strong>Alamat:</strong> ${data.address} </p>
+            <p class="card-text"><strong>No Telepon:</strong> ${data.phone} </p>
+            <p class="card-text"><strong>Email:</strong> ${data.email} </p>
         `;
         profileContainer.innerHTML = htmlStr;
 
