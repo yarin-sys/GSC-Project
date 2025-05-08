@@ -37,22 +37,23 @@ function handleLogin(event) {
       handleAuthData(data);
 
       if (data) {
-        window.location.href = "http://127.0.0.1:5500/item-list/index.html";
+        window.location.href = "http://127.0.0.1:5500/profile/index.html";
       }
+
     })
     .catch((error) => {
       console.log(error);
     });
 }
 
-// storing access and refresh token in local storage
+// storing access and refresh token in browser local storage
 function handleAuthData(authData) {
   localStorage.setItem("access", authData.access);
   localStorage.setItem("refresh", authData.refresh);
 }
 
-function tombol() {
-  document.getElementById("tombol").addEventListener("click", function () {
-    window.location.href = "https://github.com/yarin-sys/GSC-Project/tree/main";
-  });
-}
+// function tombol() {
+//   document.getElementById("tombol").addEventListener("click", function () {
+//     window.location.href = "https://github.com/yarin-sys/GSC-Project/tree/main";
+//   });
+// }

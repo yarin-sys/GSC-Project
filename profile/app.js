@@ -21,7 +21,7 @@ if (authToken) {
   console.log("User ID:", userId_int);
 
   // Contoh fetch ke endpoint user
-  fetch(`http://127.0.0.1:8000/user/${userId_int}/`, {
+  fetch(`http://127.0.0.1:8000/user/${userId_int}`, {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${authToken}`,
@@ -34,15 +34,13 @@ if (authToken) {
     if (isValidData && data){
         let htmlStr = "";
         htmlStr +=  `
-        <div class="card mb-3 shadow-sm" id="card">
-            <div class="card-body">
+
                 <img src="${data.profile_pict}" class="card-img-top img-fluid mx-auto d-block mt-3" 
                 alt="${data.username}" style="width: 100px; height:100px; object-fit: cover;">
                 <h5 class="card-title">${data.username}</h5>
                  <p class="card-text"><strong>Alamat:</strong> ${data.address} </p>
                 <p class="card-text"><strong>No Telepon:</strong> ${data.phone} </p>
-            </div>
-        </div>
+
         `;
         profileContainer.innerHTML = htmlStr;
 
