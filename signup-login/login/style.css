@@ -75,6 +75,10 @@ nav {
   height: 82.61014556884766px;
   border: black solid 3px;
 }
+#sign-up-btn {
+  height: 82.61014556884766px;
+  border: black solid 3px;
+}
 
 #login-form {
   display: flex;
@@ -105,4 +109,42 @@ nav {
   font-family: inter;
   font-size: 26.29px;
   font-weight: 700;
+}
+
+.container-list ul li a {
+  text-decoration: none;
+  font-family: inter;
+  color: #000000;
+  font-size: 24px;
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+}
+footer {
+  margin-top: 8rem;
+  text-align: center;
+  position: relative;
+}
+.copyright p::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  bottom: 30%;
+  background-color: #422d19;
+  transition: 0.3s ease-in-out;
+}
+
+.container-list ul {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-top: 5rem;
+  /* width: 592px; */
+  border-radius: 8px;
+}
+
+li {
+  list-style-type: none;
 }
