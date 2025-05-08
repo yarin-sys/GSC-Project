@@ -62,7 +62,8 @@ nav {
   background-color: #ffc611;
   padding: 0rem 2rem;
   height: 624px;
-  justify-content: space-around;
+  justify-content: center;
+  /* justify-content: space-around; */
 }
 
 .form-control {
@@ -79,7 +80,7 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 #login-form button {
@@ -98,4 +99,10 @@ nav {
 .form-control::placeholder {
   font-family: inter;
   font-size: 26.29px;
+}
+
+.teks-input input {
+  font-family: inter;
+  font-size: 26.29px;
+  font-weight: 700;
 }
