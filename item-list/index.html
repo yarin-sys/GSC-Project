@@ -40,17 +40,12 @@
             </li>
           </ul>
           <div class="right-nav">
-            <i class="fa-solid fa-magnifying-glass" id="search-icon" style="cursor: pointer"></i>
-
-            <form class="d-flex" role="search" id="search-form" style="display: none; margin-top: 10px">
-              <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" style="display: none" />
-              <button class="btn btn-outline-success" type="submit" style="display: none">Search</button>
-            </form>
-            <i class="fa-solid fa-circle-user" id="profil-icon"></i>
+            <i class="fa-solid fa-circle-user" id="profil-icon"><a href="/profile/index.html"></a></i>
           </div>
         </div>
       </div>
     </nav>
+
     <!-- Login => "http://127.0.0.1:5500/signup-login/login/index.html" -->
     <!-- sign up(from django server) => "http://127.0.0.1:8000/signup/" -->
     <!-- Create Item => "http://127.0.0.1:5500/item-create/index.html" -->
@@ -69,12 +64,12 @@
       <div class="">
         <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
       </div>
-      <form id="searchForm" class="d-flex">
-        <input type="text" name="q" class="form-control w-50" placeholder="Search Items" />
-        <input type="submit" value="Search" class="btn btn-primary ms-2" />
-      </form>
     </header>
 
+    <form id="searchForm">
+      <input type="text" name="q" class="form-control" placeholder="Search Items" id="name-search" />
+      <input type="submit" value="Search" class="btn-search" />
+    </form>
     <div class="container">
       <div class="card">
         <div class="gambar">

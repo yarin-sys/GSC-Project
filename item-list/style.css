@@ -41,11 +41,27 @@ body {
 }
 
 #searchForm {
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  align-items: center;
+  gap: 1rem;
 }
 
+.form-control {
+  width: 20%;
+  height: 4rem;
+  font-size: 1.2rem;
+}
+
+.btn-search {
+  font-size: 1.2rem;
+  border-radius: 0.4rem;
+  border: none;
+  background-color: #ffc611;
+  color: rgb(0, 0, 0);
+  padding: 1rem;
+}
 .gambar img {
   width: 541.5230712890625px;
   height: 452.7083740234375px;
@@ -82,7 +98,6 @@ body {
 
 .right-nav {
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 1rem;
   margin-left: 2rem;
