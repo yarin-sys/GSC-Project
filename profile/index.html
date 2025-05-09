@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body>
     <!-- create item => "http://127.0.0.1:5500/item-create/index.html" -->
     <!-- sign up(from django server) => "http://127.0.0.1:8000/signup/" -->
     <!-- History => http://127.0.0.1:5500/item-list/index.html -->
@@ -16,32 +15,36 @@
     <!-- login => "http://127.0.0.1:5500/signup-login/login/index.html" -->
 
     <header class="">
-
-        <div class="">
-            <a href="http://127.0.0.1:5500/item-create/index.html">create item</a>
-        </div>
-        <div class="">
-            <a href="http://127.0.0.1:5500/item-list/index.html">Item List</a>
-        </div>
-        <div class="">
-            <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
-        </div>
-        <div class="">
-            <a href="http://127.0.0.1:5500/signup-login/login/index.html">Login</a>
-        </div>
-        <div class=""> 
-            <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
-        </div>
+      <div class="">
+        <a href="http://127.0.0.1:5500/item-create/index.html">create item</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:5500/item-list/index.html">Item List</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:5500/signup-login/login/index.html">Login</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
+      </div>
     </header>
 
     <div class="container mt-5">
-        <div id="profile-container" class="mt-4">
-            <!-- put the content there -->
-        </div>
+      <div id="profile-container" class="mt-4">
+        <img src="/assets/img/logo-ikon.jpg" class="card-img-top img-fluid d-block mt-3" alt="${data.username}" style="width: 468px; height: 468pxpx; object-fit: cover; border-radius: 1000px" />
+        <div class="p-3"></div>
+        <h5 class="card-title">${data.username}</h5>
+        <p class="card-text"><strong>Alamat:</strong> ${data.address}</p>
+        <p class="card-text"><strong>No Telepon:</strong> ${data.phone}</p>
+        <p class="card-text"><strong>Email:</strong> ${data.email}</p>
+      </div>
     </div>
 
-    <script  type="module"  src="./app.js"></script>
-        <!-- Bootstrap JS -->
+    <script type="module" src="./app.js"></script>
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>

@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 body {
+  margin-top: 10rem;
   background-color: #fff6e5;
   height: 150dvh;
 }
