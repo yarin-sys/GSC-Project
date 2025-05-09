@@ -1,0 +1,64 @@
+body {
+  background-color: #df9c1f;
+}
+
+li {
+  list-style-type: none;
+}
+
+li a {
+  text-decoration: none;
+}
+.navbar-toggler {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  box-shadow: none;
+  outline: none;
+  border: none;
+  transform: scale(1.6);
+}
+
+.nav-item {
+  color: #dc4444;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.right-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+li a {
+  text-decoration: none;
+  position: relative;
+}
+
+li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 3px;
+  top: 100%;
+  background-color: #422d19;
+  transition: 0.3s ease-in-out;
+}
+li a:hover::after {
+  width: 100%;
+}
+
+.map {
+  padding-top: 6rem;
+  margin-top: 6.8rem;
+}
