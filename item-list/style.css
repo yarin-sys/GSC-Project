@@ -75,3 +75,15 @@ body {
   align-items: center;
   flex-direction: column;
 }
+
+#profil-icon {
+  font-size: 3rem;
+}
+
+.right-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 2rem;
+}
