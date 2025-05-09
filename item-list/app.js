@@ -1,4 +1,5 @@
 const contentContainer = document.getElementById("content-container");
+const searchForm = document.getElementById("searchForm");
 
 const baseEndpoint = "http://localhost:8000";
 
@@ -54,23 +55,31 @@ function showData(data) {
       // Owner & Harga akhir
       let ownerInfo = result.owner ? `<p class="card-text"><strong>Owner:</strong> ${result.owner.username}</p>` : "";
       let finalPriceInfo = result.price_final ? `<p class="card-text"><strong>Harga akhir:</strong> Rp${result.price_final.toLocaleString("id-ID")}</p>` : "";
+      let fixedText = result.fixed ? '<button style="background-color : green;">FIXED ! !</button>' : '<button style="background-color: #164058;">On Progress</button>';
 
       htmlStr += `
-                <div class="card mb-3 shadow-sm" id="card">
-                    <div class="card-body">
-                        <h5 class="card-title">${result.item_name}</h5>
-                        <img src="${result.picture}" class="card-img-top img-fluid mx-auto d-block mt-3" 
-                        alt="${result.item_name}" style="width: 220px; height:180px; object-fit: cover;">
-                        ${ownerInfo}
-                         <p class="card-text"><strong>Tingkat kerusakan:</strong> ${rateString} </p>
-                        <p class="card-text"><strong>Deskripsi Kerusakan:</strong> ${result.deskripsi} </p>
-                        <p class="card-text"><strong>Alamat:</strong> ${result.pick_address} </p>
-                        <p class="card-text"><strong>Harga penawaran :</strong> Rp${result.price_offered.toLocaleString("id-ID")}</p>
-                        ${finalPriceInfo}
-                        <p class="card-text"><strong>Fixed:</strong> ${result.fixed}</p>
-                        <br>
-                    </div>
+            <div class="card p-5" style="background-color: #ffc611; border-radius:34.74px; margin-bottom: 10rem">
+                <div class="gambar">
+                <img src="${result.picture}" class="card-img-top img-fluid mx-auto d-block mt-3" alt="${result.item_name}" />
                 </div>
+
+                <div class="info">
+                <h2 class="card-title" align="center">${result.item_name}</h2>
+                ${ownerInfo}
+                <p class="card-text"><strong>Tingkat kerusakan:</strong> <br />${rateString}</p>
+                <p class="card-text">
+                    <strong>Deskripsi Kerusakan:</strong><br />
+                    ${result.deskripsi}
+                </p>
+                <p class="card-text"><strong>Alamat:</strong> <br />${result.pick_address}</p>
+                <p class="card-text"><strong>Harga penawaran :</strong> <br />Rp${result.price_offered.toLocaleString("id-ID")}</p>
+                ${finalPriceInfo}
+                </div>
+                <div class="fixed">
+                <p class="card-text" style="font-size: 25px; font-family: inter; font-weight: 700; text-wrap: nowrap"><strong>Is Ur item Fixed?:</strong><br /></p>
+                ${fixedText}
+                </div>
+            </div>
                 `;
     }
     contentContainer.innerHTML = htmlStr;
@@ -129,17 +138,17 @@ fetch(endpoint, options)
     console.log(error);
   });
 
-const searchIcon = document.getElementById("search-icon");
-const searchForm = document.getElementById("search-form");
-const input = searchForm.querySelector('input[type="text"]');
-const button = searchForm.querySelector('input[type="submit"]');
+// const searchIcon = document.getElementById("search-icon");
 
-searchIcon.addEventListener("click", function () {
-  const isHidden = input.style.display === "none";
-  input.style.display = isHidden ? "inline-block" : "none";
-  button.style.display = isHidden ? "inline-block" : "none";
+// const input = searchForm.querySelector('input[type="text"]');
+// const button = searchForm.querySelector('input[type="submit"]');
 
-  if (isHidden) {
-    input.focus();
-  }
-});
+// searchIcon.addEventListener("click", function () {
+//   const isHidden = input.style.display === "none";
+//   input.style.display = isHidden ? "inline-block" : "none";
+//   button.style.display = isHidden ? "inline-block" : "none";
+
+//   if (isHidden) {
+//     input.focus();
+//   }
+// });

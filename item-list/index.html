@@ -70,29 +70,9 @@
       <input type="text" name="q" class="form-control" placeholder="Search Items" id="name-search" />
       <input type="submit" value="Search" class="btn-search" />
     </form>
-    <div class="container">
-      <div class="card">
-        <div class="gambar">
-          <img src="/assets/img/headphone.png" class="card-img-top img-fluid mx-auto d-block mt-3" alt="${result.item_name}" />
-        </div>
-
-        <div class="info">
-          <h2 class="card-title" align="center">${result.item_name}</h2>
-          ${ownerInfo}
-          <p class="card-text"><strong>Tingkat kerusakan:</strong> <br />${rateString}</p>
-          <p class="card-text">
-            <strong>Deskripsi Kerusakan:</strong><br />
-            ${result.deskripsi}
-          </p>
-          <p class="card-text"><strong>Alamat:</strong> <br />${result.pick_address}</p>
-          <p class="card-text"><strong>Harga penawaran :</strong> <br />Rp${result.price_offered.toLocaleString("id-ID")}</p>
-          ${finalPriceInfo}
-        </div>
-        <div class="fixed">
-          <p class="card-text" style="font-size: 25px; font-family: inter; font-weight: 700; text-wrap: nowrap"><strong>Is Ur item Fixed?:</strong><br /></p>
-          <button>${result.fixed}</button>
-        </div>
-      </div>
+    
+    <div class="container" id="content-container">
+      <!-- content at there -->
     </div>
 
     <script src="./app.js"></script>
