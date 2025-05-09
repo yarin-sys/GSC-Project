@@ -1,0 +1,133 @@
+/* style.css */
+
+/* Base background */
+body {
+  background-color: #fdf4e3; /* light cream */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Container padding */
+.main-container {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fbcf18; /* mustard yellow */
+  border-radius: 20px;
+}
+
+/* Product card styling */
+.product-card {
+  background-color: #11324d; /* deep navy blue */
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.product-card hr {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Chat area styling */
+.chat-box {
+  background-color: #fff3dd; /* lighter cream for chat box */
+  border-radius: 20px;
+  padding: 20px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Chat bubbles */
+.chat-bubble-right,
+.chat-bubble-left {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.chat-bubble-right {
+  flex-direction: row-reverse;
+}
+
+.chat-message {
+  max-width: 70%;
+  padding: 10px 15px;
+  margin: 0 10px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  color: white;
+  background-color: #0f2c3d; /* deep navy bubble */
+}
+
+.chat-bubble-left .chat-message {
+  background-color: #0f2c3d;
+}
+
+/* Offer box */
+.offer-box {
+  background-color: #0f2c3d;
+  color: white;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.offer-box button {
+  background-color: white;
+  color: #0f2c3d;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 15px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.offer-box button:hover {
+  background-color: #e9ecef;
+}
+
+/* Input field styling */
+.input-group {
+  background-color: #0f2c3d;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.input-group .form-control {
+  border: none;
+  background: transparent;
+  color: white;
+}
+
+.input-group .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.input-group-text {
+  background-color: transparent;
+  color: white;
+  border: none;
+}
+
+/* Navbar fix */
+.navbar {
+  border-bottom: 3px solid #0f2c3d;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #0f2c3d !important;
+}
+
+.navbar .nav-link {
+  color: #0f2c3d;
+}
