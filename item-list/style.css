@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #fff6e5;
+  height: 150dvh;
+}
+#search-icon {
+  font-size: 2rem;
+}
+
+.container {
+  margin-top: 2rem 0rem;
+  width: 1652px;
+  height: 862px;
+  background-color: #ffc611;
+  border-radius: 34.74px;
+}
+
+.card {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  background-color: transparent;
+  align-items: center;
+  margin: 2rem 1rem 2rem 1rem;
+}
+
+.info {
+  border-radius: 18.13px;
+  height: 777px;
+  width: 575px;
+  background-color: white;
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#searchForm {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.gambar img {
+  width: 541.5230712890625px;
+  height: 452.7083740234375px;
+  object-fit: cover;
+  border: black solid 4px;
+  border-radius: 57.63px;
+}
+
+.info h2 {
+  font-size: 56.48px;
+  font-family: inter;
+}
+.info p {
+  font-family: inter;
+  font-size: 30.74px;
+}
+
+.fixed button {
+  background-color: #164058;
+  color: white;
+  padding: 1rem;
+}
+
+.fixed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

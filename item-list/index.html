@@ -1,48 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Item History</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #fff6e5; backdrop-filter: blur(15px); margin: 1rem 2rem" data-bs-theme="light">
+      <div class="container-fluid">
+        <a href="index.html">
+          <img src="/assets/img/logo-fixit.jpg" class="img-fluid" alt="" style="z-index: 1000; width: 157px; height: 60px" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#Aboutus" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#user" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#repairer" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Repairer</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#community" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Community</a>
+            </li>
+          </ul>
+          <div class="right-nav">
+            <i class="fa-solid fa-magnifying-glass" id="search-icon" style="cursor: pointer"></i>
 
+            <form class="d-flex" role="search" id="search-form" style="display: none; margin-top: 10px">
+              <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" style="display: none" />
+              <button class="btn btn-outline-success" type="submit" style="display: none">Search</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
     <!-- Login => "http://127.0.0.1:5500/signup-login/login/index.html" -->
     <!-- sign up(from django server) => "http://127.0.0.1:8000/signup/" -->
     <!-- Create Item => "http://127.0.0.1:5500/item-create/index.html" -->
     <!-- Profile => "http://127.0.0.1:5500/profile/index.html" -->
 
     <header class="">
-        <div class="">
-            <a href="http://127.0.0.1:5500/item-create/index.html">Items Create</a>
-        </div>
-        <div class="">
-            <a href="http://127.0.0.1:5500/signup-login/login/index.html">Login</a>
-        </div>
-        <div class=""> 
-            <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
-        </div>
-        <div class="">
-            <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
-        </div>
-        <form id="searchForm" class="d-flex">
-            <input type="text" name="q" class="form-control w-50" placeholder="Search Items" />
-            <input type="submit" value="Search" class="btn btn-primary ms-2" />
-        </form>
-        
+      <div class="">
+        <a href="http://127.0.0.1:5500/item-create/index.html">Items Create</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:5500/signup-login/login/index.html">Login</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
+      </div>
+      <div class="">
+        <a href="http://127.0.0.1:5500/profile/index.html">Profile</a>
+      </div>
+      <form id="searchForm" class="d-flex">
+        <input type="text" name="q" class="form-control w-50" placeholder="Search Items" />
+        <input type="submit" value="Search" class="btn btn-primary ms-2" />
+      </form>
     </header>
 
-    <div class="container mt-5">
-        <div id="content-container" class="mt-4">
-            <!-- put the content there -->
+    <div class="container">
+      <div class="card">
+        <div class="gambar">
+          <img src="/assets/img/headphone.png" class="card-img-top img-fluid mx-auto d-block mt-3" alt="${result.item_name}" />
         </div>
+
+        <div class="info">
+          <h2 class="card-title" align="center">${result.item_name}</h2>
+          ${ownerInfo}
+          <p class="card-text"><strong>Tingkat kerusakan:</strong> <br />${rateString}</p>
+          <p class="card-text">
+            <strong>Deskripsi Kerusakan:</strong><br />
+            ${result.deskripsi}
+          </p>
+          <p class="card-text"><strong>Alamat:</strong> <br />${result.pick_address}</p>
+          <p class="card-text"><strong>Harga penawaran :</strong> <br />Rp${result.price_offered.toLocaleString("id-ID")}</p>
+          ${finalPriceInfo}
+        </div>
+        <div class="fixed">
+          <p class="card-text" style="font-size: 25px; font-family: inter; font-weight: 700; text-wrap: nowrap"><strong>Is Ur item Fixed?:</strong><br /></p>
+          <button>${result.fixed}</button>
+        </div>
+      </div>
     </div>
-    
-    
+
     <script src="./app.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
