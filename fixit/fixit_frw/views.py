@@ -2,18 +2,28 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
+# from django.http import HttpResponseRedirect
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
+# from rest_framework.views import APIView
 from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
-from rest_framework import generics
-from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer
+from rest_framework import generics,status
+from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignupSerializer
 from .models import Items
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from rest_framework.permissions import AllowAny
 
 User = get_user_model()
+@method_decorator(csrf_exempt, name='dispatch')
+class SignupView2(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = SignupSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [AllowAny]
 
 # Create your views here.
 def user_login(request):
@@ -36,13 +46,14 @@ def authView(request):
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('http://localhost:8000/accounts/login/')
+            return redirect('http://127.0.0.1:5500/signup-login/login/index.html')
     else:
         form = CustomUserCreationForm()
     return render(request, "registration/signup.html", {"form" : form})
 
+
 # Sign Up from separated client
-class SignUpView(APIView):
+class SignUpView(generics.ListCreateAPIView):
     parser_classes = [MultiPartParser, FormParser]
     
     def get(self, request, *args, **kwargs):
