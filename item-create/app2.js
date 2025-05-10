@@ -51,8 +51,9 @@ window.addEventListener("load", (event) => {
             if (isValid) {
                 console.log('Response:', data);
                 alert("Data berhasil dikirim");
-                itemsForm.reset();
+                // itemsForm.reset();
                 window.location.href = "http://localhost:5500/item-list/index.html";
+                itemsForm.reset();
             }
         })
         .catch(error => {
