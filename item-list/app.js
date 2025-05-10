@@ -7,6 +7,8 @@ if (searchForm) {
   searchForm.addEventListener("submit", handleSearch);
 }
 
+const authToken = localStorage.getItem("access");
+
 function isTokenNotValid(jsonData) {
   if (jsonData.code && jsonData.code === "token_not_valid") {
     // run a refresh token query
@@ -99,7 +101,7 @@ function handleSearch(e) {
   let searchParams = new URLSearchParams(data);
   const searchItems = `${baseEndpoint}/search/item/?${searchParams}`;
 
-  const authToken = localStorage.getItem("access");
+  // const authToken = localStorage.getItem("access");
 
   const options = {
     method: "GET",
@@ -119,7 +121,6 @@ function handleSearch(e) {
     });
 }
 
-const authToken = localStorage.getItem("access");
 
 const options = {
   method: "GET",

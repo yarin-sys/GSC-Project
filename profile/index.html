@@ -34,7 +34,7 @@
         <a href="http://127.0.0.1:5500/signup-login/login/index.html">Login</a>
       </div>
       <div class="">
-        <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
+        <a href="http://127.0.0.1:5500/signup-login/signup/index.html">Sign Up</a>
       </div>
     </header> -->
     <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #fff6e5; backdrop-filter: blur(15px); margin: 1rem 2rem" data-bs-theme="light">
@@ -47,16 +47,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/item-list/index.html" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Item list</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/item-create/index.html" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Create Item</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/signup/" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Sign-Up</a>
+              <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/signup-login/signup/index.html" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Sign-Up</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/signup-login/login/index.html" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Login</a>
-            </li>
-          </ul>
+            </li></ul>
           <div class="right-nav">
             <a href="/profile/index.html" style="color: black">
               <i class="fa-solid fa-circle-user" id="profil-icon"></i>
@@ -68,8 +71,8 @@
 
     <div class="container-profile">
       <h1>PROFIL</h1>
-      <div class="content-profil">
-        <div id="profile-container" class="mt-4">
+      <div class="content-profil" id="profile-container">
+        <!-- <div  class="mt-4">
           <img src="/assets/img/profil.jpeg" alt="${data.username}" style="width: 468px; height: 468px; object-fit: cover; border-radius: 1000px" />
         </div>
         <div class="profile-desc">
@@ -80,7 +83,7 @@
           <p>${data.email}</p>
           <label for="address"><strong>Alamat:</strong></label>
           <p>${data.address}</p>
-        </div>
+        </div> -->
       </div>
     </div>
 
