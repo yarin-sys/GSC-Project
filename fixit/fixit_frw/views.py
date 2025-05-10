@@ -18,12 +18,16 @@ from django.utils.decorators import method_decorator
 from rest_framework.permissions import AllowAny
 
 User = get_user_model()
-@method_decorator(csrf_exempt, name='dispatch')
 class SignupView2(generics.CreateAPIView):
-    queryset = User.objects.all()
     serializer_class = SignupSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        if request.user and request.user.is_authenticated:
+            return Response({'detail': 'Anda sudah login, tidak dapat mendaftar lagi.'},
+                            status=status.HTTP_403_FORBIDDEN)
+        return super().create(request, *args, **kwargs)
 
 # Create your views here.
 def user_login(request):
@@ -137,5 +141,8 @@ class UserDetail(   StaffEditorPermissionMixin,
                     ):
     
     serializer_class = UserSerializer
-    queryset = User.objects.all()
     lookup_field = 'pk'
+    
+    def get_queryset(self):
+        pk = self.kwargs.get(self.lookup_field)
+        return User.objects.filter(pk=pk)
