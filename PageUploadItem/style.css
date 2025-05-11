@@ -3,108 +3,31 @@ body {
   background-color: #fff6e5;
 }
 
-.navbar .nav-link {
-  font-size: 20px;
-  font-weight: 500;
-  color: #164058 !important;
-  margin-left: 1.5rem;
-}
-
-.header h1 {
+.navbar-nav .nav-link {
+  font-size: 26px;
+  font-weight: 400;
   color: #164058;
+  margin-left: 2.3rem;
 }
 
-.card.custom-card {
-  border: 4px solid #ffc107;
-  border-radius: 16px;
-  width: 180px;
-  flex: 0 0 auto;
+.form-wrapper {
+  background-color: #fdbb00;
+  margin-top: 6rem;
 }
 
-.card.custom-card img {
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  height: 150px;
-  object-fit: cover;
-}
-
-.card.custom-card .card-body {
-  background-color: #ffc107; /* Ensure the card body matches the background */
-}
-
-.card.custom-card .card-title {
-  color: #164058; /* Change the title color to ensure it's readable */
-}
-
-.scrolling-wrapper {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.scrolling-wrapper::-webkit-scrollbar {
-  display: none;
-}
-
-.scrolling-wrapper::-webkit-scrollbar-thumb {
-  background: #ccc;
+.upload-box {
+  width: 100%;
+  padding-top: 100%; /* 1:1 aspect ratio */
+  background-color: white;
+  border: 2px solid #164058;
   border-radius: 10px;
-}
-
-.hero-wrapper {
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-}
-
-.hero-banner {
-  background-image: url('Images/main_img.jpg'); /* Replace with your actual image path */
-  background-size: cover;
-  background-position: center;
-  height: 420px;
-  border-radius: 1.5rem; /* Soft rounded edges */
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.45); /* darken effect */
-  z-index: 1;
-  border-radius: inherit;
-}
-
-.hero-content {
-  z-index: 2;
   position: relative;
 }
 
-.hero-title {
-  font-family: 'Georgia', serif;
-  font-size: 2rem;
-  color: white;
-  margin-bottom: 0.5rem;
-}
-
-.hero-subtitle {
-  font-size: 1.2rem;
-  font-style: italic;
-  color: white;
-}
-
-.hero-wrapper {
-  padding-top: 5rem;
-  padding-bottom: 2rem;
-}
-
-.custom-nav {
-  background-color: #FFF6E5;
-  color: black;
-}
-
-.custom-nav a {
-  color: black;
-  text-decoration: none;
-}
-
-.custom-nav a:hover {
-  text-decoration: underline;
+.upload-box i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #164058;
 }
