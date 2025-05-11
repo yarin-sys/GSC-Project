@@ -4,9 +4,8 @@
   box-sizing: border-box;
 }
 body {
-  margin-top: 7.5rem;
   background-color: #fff6e5;
-  height: 90dvh;
+  height: 110dvh;
 }
 
 .container-profile {
