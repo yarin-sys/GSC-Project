@@ -16,6 +16,7 @@ function isTokenNotValid(jsonData) {
 const authToken = localStorage.getItem('access');
 
 window.addEventListener("load", (event) => {
+    event.preventDefault();
     const itemsForm = document.getElementById('itemsForm');
     let fileInput = document.querySelector('input[type="file"]');
 
