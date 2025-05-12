@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <link rel="stylesheet" href="chatbot_style.css">
+</head>
+<body>
+
+    <!-- Tombol untuk membuka Chatbot (jika Anda ingin membuatnya terpisah) -->
+    <!-- <button id="open-chatbot-btn-standalone">Buka Chat Asisten</button> -->
+
+    <!-- Kontainer Utama Chatbot -->
+    <!-- Anda bisa meletakkan ini di dalam modal atau div lain di halaman utama Anda -->
+    <div id="chatbot-container-standalone">
+        <div id="chatbot-header-standalone">
+            <h2>Asisten Perbaikan AI</h2>
+            <!-- Tambahkan tombol close jika ini ada di dalam modal -->
+            <!-- <button id="close-chatbot-btn-standalone">×</button> -->
+        </div>
+        <div id="chatbot-log-standalone">
+            <!-- Pesan awal dari bot -->
+            <div class="chatbot-message-standalone bot-message-standalone">
+                Halo! Ada yang bisa saya bantu terkait perbaikan barang Anda? Jelaskan kerusakannya dan jika ada, unggah fotonya.
+            </div>
+            <!-- Contoh pesan pengguna -->
+            <!-- <div class="chatbot-message-standalone user-message-standalone">
+                Layar HP saya retak.
+            </div> -->
+        </div>
+        <div id="chatbot-preview-container-standalone">
+            <img id="chatbot-image-preview-standalone" src="#" alt="Pratinjau Gambar"/>
+            <button id="chatbot-remove-image-btn-standalone">Hapus Gambar</button>
+        </div>
+        <form id="chatbot-form-standalone">
+            <input type="text" id="chatbot-message-input-standalone" placeholder="Ketik pesan Anda..." autocomplete="off">
+            <label for="chatbot-image-input-standalone" id="chatbot-image-input-label-standalone" title="Unggah Gambar">
+                📎 <!-- Icon paperclip -->
+            </label>
+            <input type="file" id="chatbot-image-input-standalone" accept="image/*">
+            <button type="submit" id="chatbot-submit-btn-standalone" title="Kirim Pesan">
+                ➢ <!-- Icon send -->
+            </button>
+        </form>
+        <div id="chatbot-loading-standalone">Memproses...</div>
+    </div>
+
+    <script src="chatbot_script.js"></script>
+</body>
+</html>
