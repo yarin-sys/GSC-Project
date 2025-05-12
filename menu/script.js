@@ -1,3 +1,5 @@
+import { refreshToken } from "../item-list/app.js";
+
 // Toggle search bar
 document.addEventListener("DOMContentLoaded", function () {
   const searchIcon = document.getElementById("search-icon");
@@ -38,7 +40,7 @@ const authToken = localStorage.getItem("access");
 
 function isTokenNotValid(jsonData) {
   if (jsonData.code && jsonData.code === "token_not_valid") {
-    // run a refresh token query
+    refreshToken();
     alert("Please Login Again");
     window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
     return false;
@@ -60,13 +62,13 @@ function showData(data) {
 
     let result_data = data;
 
-    for (result of result_data) {
+    for (let result of result_data) {
 
       htmlStr += `
                 <div class="card custom-card me-3">
                   <img src="${result.picture}" class="card-img-top" alt="${result.item_name}">
                   <div class="card-body text-center">
-                    <p class="card-title fw-bold mb-0">${result.item_name}</p>
+                    <p class="card-title fw-bold mb-0"><a href="item-detail/index.html#item/${result.id}" ">${result.item_name}</a></p>
                   </div>
                 </div>
           `;
@@ -77,7 +79,7 @@ function showData(data) {
                   <div class="card custom-card me-3">
                     <img src="${result.picture}" class="card-img-top" alt="${result.item_name}">
                     <div class="card-body text-center">
-                      <p class="card-title fw-bold mb-0">${result.item_name}</p>
+                      <p class="card-title fw-bold mb-0"><a href="item-detail/index.html#item/${result.id}" ">${result.item_name}</a></p>
                     </div>
                   </div>
                 `;
@@ -88,7 +90,7 @@ function showData(data) {
               <div class="card custom-card me-3">
                 <img src="${result.picture}" class="card-img-top" alt="${result.item_name}">
                 <div class="card-body text-center">
-                  <p class="card-title fw-bold mb-0">${result.item_name}</p>
+                  <p class="card-title fw-bold mb-0"><a href="item-detail/index.html#item/${result.id}" ">${result.item_name}</a></p>
                 </div>
               </div>
             `;
@@ -99,7 +101,7 @@ function showData(data) {
             <div class="card custom-card">
               <img src="${result.picture}" class="card-img-top" alt="${result.item_name}">
               <div class="card-body text-center">
-                <p class="card-title fw-bold mb-0"><a href="item-detail/index.html#item/${result.id}">${result.item_name}</a></p>
+                <p class="card-title fw-bold mb-0"><a href="item-detail/index.html#item/${result.id}" ">${result.item_name}</a></p>
               </div>
             </div>
           `;

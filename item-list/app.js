@@ -9,7 +9,7 @@ if (searchForm) {
 
 const authToken = localStorage.getItem("access");
 
-function refreshToken() {
+export function refreshToken() {
   const refresh = localStorage.getItem('refresh'); // Ambil refresh token dari localStorage
 
   if (!refresh) {
@@ -60,11 +60,11 @@ function showData(data) {
   console.log(data);
   const isValidData = isTokenNotValid(data);
 
-  if (isValidData && data) {
+  if (isValidData && data[0]) {
     let htmlStr = "";
-    let result_data = data;
+    let result = data[0];
 
-    for (result of result_data) {
+
       let rateString;
 
       switch (result.rate) {
@@ -80,7 +80,7 @@ function showData(data) {
         case 4:
           rateString = "Dangerous";
           break;
-        case 4:
+        case 5:
           rateString = "Considerable";
           break;
         default:
@@ -118,7 +118,7 @@ function showData(data) {
                 </div>
             </div>
                 `;
-    }
+    
     contentContainer.innerHTML = htmlStr;
     if (!data[0]) {
       contentContainer.innerHTML = "<p> Tidak ada Items </p>";
@@ -156,35 +156,3 @@ function handleSearch(e) {
     });
 }
 
-
-const options = {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${authToken}`,
-  },
-};
-
-fetch(endpoint, options)
-  .then((response) => {
-    console.log("respon sebagai berikut: ", response);
-    return response.json();
-  })
-  .then((data) => showData(data))
-  .catch((error) => {
-    console.log(error);
-  });
-
-// const searchIcon = document.getElementById("search-icon");
-
-// const input = searchForm.querySelector('input[type="text"]');
-// const button = searchForm.querySelector('input[type="submit"]');
-
-// searchIcon.addEventListener("click", function () {
-//   const isHidden = input.style.display === "none";
-//   input.style.display = isHidden ? "inline-block" : "none";
-//   button.style.display = isHidden ? "inline-block" : "none";
-
-//   if (isHidden) {
-//     input.focus();
-//   }
-// });

@@ -1,46 +1,17 @@
+import {} from '../../item-list/app.js';
+
 const contentContainer = document.getElementById("content-container");
+
 
 const baseEndpoint = "http://localhost:8000";
 
 const hash = window.location.hash; // "#item/4"
 const parts = hash.split('/');
 const itemId = parts[1]; // "4"
+console.log(itemId);
 
 const authToken = localStorage.getItem("access");
 
-function refreshToken() {
-  const refresh = localStorage.getItem('refresh'); // Ambil refresh token dari localStorage
-
-  if (!refresh) {
-      alert("No refresh token found. Please login again.");
-      window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-      return;
-  }
-
-  fetch('http://localhost:8000/api/token/refresh/', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ refresh: localStorage.getItem('refresh') })
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Refresh token invalid');
-      }
-      return response.json();
-  })
-  .then(data => {
-      // Simpan access token baru
-      localStorage.setItem('access', data.access);
-      console.log('Token refreshed');
-  })
-  .catch(error => {
-      console.error('Error refreshing token:', error);
-      alert("Session expired. Please login again.");
-      window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-  });
-}
 
 function isTokenNotValid(jsonData) {
   if(jsonData.code && jsonData.code === 'token_not_valid'){
@@ -76,7 +47,7 @@ function showData(data) {
         case 4:
           rateString = "Dangerous";
           break;
-        case 4:
+        case 5:
           rateString = "Considerable";
           break;
         default:
@@ -91,34 +62,34 @@ function showData(data) {
       let fixedText = result.fixed ? '<button style="background-color : green;">FIXED ! !</button>' : '<button style="background-color: #164058;">On Progress</button>';
 
       htmlStr += `
-  <div class="d-flex card" style="background-color: #ffc611; border-radius: 20px; padding: 2rem; display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
-    <!-- Gambar -->
-    <div class="gambar" >
-      <img src="${result.picture}" alt="${result.item_name}" style=" border-radius: 37px;" />
-    </div>
+      <div class="d-flex card" style="background-color: #ffc611; border-radius: 20px; padding: 2rem; display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap; width: " id="kuning">
+        <!-- Gambar -->
+        <div class="gambar" >
+          <img src="${result.picture}" alt="${result.item_name}" style=" border-radius: 37px;" />
+        </div>
 
-    <!-- Informasi Item -->
-    <div class="info" style="height: 320px;>
-      <h1 style="margin-bottom: 0.5rem;">${result.item_name}</h1>
-      ${ownerInfo}
-      <p><strong>Tingkat Kerusakan:</strong> ${rateString}</p>
-      <strong>Deskripsi:</strong><p> ${result.deskripsi}</p>
-      <strong>Address:</strong><p> ${result.pick_address}</p>
-      <p><strong>Harga Penawaran:</strong> Rp${result.price_offered.toLocaleString("id-ID")}</p>
-      ${finalPriceInfo}
-    </div>
+        <!-- Informasi Item -->
+        <div class="info" style="height: 320px;>
+          <h1 style="margin-bottom: 0.5rem;">${result.item_name}</h1>
+          ${ownerInfo}
+          <p><strong>Tingkat Kerusakan:</strong> ${rateString}</p>
+          <strong>Deskripsi:</strong><p> ${result.deskripsi}</p>
+          <strong>Address:</strong><p> ${result.pick_address}</p>
+          <p><strong>Harga Penawaran:</strong> Rp${result.price_offered.toLocaleString("id-ID")}</p>
+          ${finalPriceInfo}
+        </div>
 
-    <!-- Status Fixed dan Tombol -->
-    <div style="flex: 1 1 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
-      <div id="isFixed">
-        <p style="font-weight: bold;">Is your item ready to be fixed?</p>
+        <!-- Status Fixed dan Tombol -->
+        <div style="flex: 1 1 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+          <div id="isFixed">
+            <p style="font-weight: bold;">Is your item ready to be fixed?</p>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <button style="padding: 0.5rem 1rem; background-color: #164058; color: white; border: none; border-radius: 5px;">Fix it!</button>
+            <button style="padding: 0.5rem 1rem; background-color: white; border: 2px solid #164058; color: #164058; border-radius: 5px;">Cancel</button>
+          </div>
+        </div>
       </div>
-      <div style="display: flex; gap: 1rem;">
-        <button style="padding: 0.5rem 1rem; background-color: #164058; color: white; border: none; border-radius: 5px;">Fix it!</button>
-        <button style="padding: 0.5rem 1rem; background-color: white; border: 2px solid #164058; color: #164058; border-radius: 5px;">Cancel</button>
-      </div>
-    </div>
-  </div>
                 `;
     
     contentContainer.innerHTML = htmlStr;

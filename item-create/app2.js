@@ -1,39 +1,7 @@
 
+import { refreshToken } from "../item-list/app.js";
+
 const warningPrice = document.getElementById('warning-price');
-
-function refreshToken() {
-    const refresh = localStorage.getItem('refresh'); // Ambil refresh token dari localStorage
-
-    if (!refresh) {
-        alert("No refresh token found. Please login again.");
-        window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-        return;
-    }
-
-    fetch('http://localhost:8000/api/token/refresh/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ refresh: localStorage.getItem('refresh') })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Refresh token invalid');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Simpan access token baru
-        localStorage.setItem('access', data.access);
-        console.log('Token refreshed');
-    })
-    .catch(error => {
-        console.error('Error refreshing token:', error);
-        alert("Session expired. Please login again.");
-        window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-    });
-}
 
 function isTokenNotValid(jsonData) {
     if(jsonData.code && jsonData.code === 'token_not_valid'){
@@ -52,17 +20,12 @@ const authToken = localStorage.getItem('access');
 window.addEventListener("load", (event) => {
     event.preventDefault();
     const itemsForm = document.getElementById('itemsForm');
-    // let fileInput = document.querySelector('input[type="file"]');
 
 
     itemsForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         let itemsFormData = new FormData(itemsForm);
-
-        // mandatory if you input file (in this case image)
-        // let fileInput = document.querySelector('input[type="file"]');
-        // itemsFormData.append('file', fileInput.files[0]);
     
         fetch('http://localhost:8000/items/', {
             method: 'POST',
@@ -102,5 +65,17 @@ window.addEventListener("load", (event) => {
     });
     
 })
+
+// Toggle search bar visibility
+document.addEventListener("DOMContentLoaded", () => {
+    const searchIcon = document.getElementById("search-icon");
+    const searchForm = document.getElementById("search-form");
+  
+    if (searchIcon && searchForm) {
+      searchIcon.addEventListener("click", () => {
+        searchForm.style.display = searchForm.style.display === "none" ? "flex" : "none";
+      });
+    }
+  });
 
 
