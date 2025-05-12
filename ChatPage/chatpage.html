@@ -39,37 +39,46 @@
   </div>
 </nav>
 
-<!-- Main Chat Section -->
-<div class="container main-container mt-5 pt-5">
-  <div class="row g-4">
-    <!-- Product Info Section -->
-    <div class="col-md-4">
-      <div class="product-card">
-        <img src="" alt="Black Headphones" />
-        <h5 class="mt-3">Black Headphones</h5>
-        <p><strong>Fee:</strong> Rp500.000</p>
-        <p class="small">A broken headband. Detached ear cup. Loose cable. Yup, definitely broken.</p>
-        <hr class="text-light" />
-        <p class="fw-bold">How much fee are you aiming for?</p>
-      </div>
-    </div>
-
-    <!-- Chat Section -->
-    <div class="col-md-8">
-      <div class="chat-box">
-
-        <!-- Offer Box -->
-        <div class="offer-box">
-          <h6 class="mb-1">Black Chair</h6>
-          <p class="mb-2">Rp350.000</p>
-          <button>Confirm</button>
-          <button>Deny</button>
+<!-- Centered Wrapper -->
+<div class="center-wrapper">
+  <!-- Main Chat Section -->
+  <div class="container main-container">
+    <div class="row g-4">
+      <!-- Product Info Section -->
+      <div class="col-md-4">
+        <div class="product-card">
+          <img src="Images/brokenitem2.png" alt="Black Headphones" />
+          <h5 class="mt-3">Black Headphones</h5>
+          <p><strong>Fee:</strong> Rp500.000</p>
+          <p class="small">A broken headband. Detached ear cup. Loose cable. Yup, definitely broken.</p>
+          <hr class="text-light" />
+          <p class="fw-bold">How much fee are you aiming for?</p>
         </div>
+      </div>
 
-        <!-- Input Field -->
-        <div class="input-group mt-3">
-          <span class="input-group-text">+</span>
-          <input type="text" class="form-control chat-input" placeholder="Type Chat" />
+      <!-- Chat Section -->
+      <div class="col-md-8">
+        <div class="chat-box">
+
+          <!-- Offer Box -->
+          <div class="offer-box">
+            <h6 class="mb-1">Black Chair</h6>
+            <p class="mb-2">Rp350.000</p>
+            <button>Confirm</button>
+            <button>Deny</button>
+          </div>
+
+          <!-- Negotiation Input Bubble (hidden initially) -->
+          <div id="negotiation-bubble" style="display: none;" class="chat-bubble-right">
+            <img src="Images/test.png" class="rounded-circle" width="35" height="35" alt="User" />
+            <input id="negotiation-input" type="text" class="form-control" placeholder="Enter your price offer..." style="max-width: 70%; border-radius: 15px;"/>
+          </div>
+
+          <!-- Input Field -->
+          <div class="input-group mt-3">
+            <span class="input-group-text" id="plus-button" style="cursor: pointer;">+</span>
+            <input type="text" class="form-control chat-input" placeholder="Type Chat" />
+          </div>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ body {
 
 /* Container padding */
 .main-container {
-  margin-top: 30px;
+  margin-top: 60px;
   padding: 20px;
   background-color: #fbcf18; /* mustard yellow */
   border-radius: 20px;
@@ -130,4 +130,25 @@ body {
 
 .navbar .nav-link {
   color: #0f2c3d;
+}
+
+/* Center wrapper styling */
+.center-wrapper {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px; /* to account for navbar height */
+}
+.offer-box {
+  background-color: #0b2e3d;
+  color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+.offer-box button {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 5px;
 }
