@@ -1,0 +1,188 @@
+/* Styling Dasar untuk Kontainer Chatbot */
+#chatbot-container-standalone {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Atau lebar spesifik, misal 350px */
+    max-width: 400px; /* Batas lebar maksimum */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Untuk border-radius pada anak-elemen */
+    /* Jika ini modal, Anda mungkin ingin menambahkan margin: auto; atau posisi absolut */
+}
+
+/* Header Chatbot */
+#chatbot-header-standalone {
+    background-color: #ffc611; /* Warna header, sesuaikan */
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ffc611;
+}
+
+#chatbot-header-standalone h2 {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+/* Tombol close (jika digunakan di modal) */
+#close-chatbot-btn-standalone {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 1;
+}
+#close-chatbot-btn-standalone:hover {
+    opacity: 0.8;
+}
+
+/* Log Percakapan */
+#chatbot-log-standalone {
+    height: 300px; /* Sesuaikan tinggi yang diinginkan */
+    overflow-y: auto;
+    padding: 15px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Jarak antar pesan */
+}
+
+/* Styling Umum Pesan */
+.chatbot-message-standalone {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+    word-wrap: break-word;
+    line-height: 1.4;
+    font-size: 0.95em;
+}
+
+/* Pesan dari Pengguna (User) */
+.user-message-standalone {
+    background-color: #dcf8c6; /* Warna hijau muda, seperti WhatsApp */
+    color: #333;
+    align-self: flex-end; /* Rata kanan */
+    border-bottom-right-radius: 5px; /* Membuat sudut sedikit berbeda */
+}
+
+/* Pesan dari Bot */
+.bot-message-standalone {
+    background-color: #e9e9eb; /* Warna abu-abu muda */
+    color: #333;
+    align-self: flex-start; /* Rata kiri */
+    border-bottom-left-radius: 5px; /* Membuat sudut sedikit berbeda */
+}
+
+/* Kontainer Pratinjau Gambar */
+#chatbot-preview-container-standalone {
+    padding: 5px 15px 10px 15px;
+    text-align: left; /* Atau center jika mau di tengah */
+    border-top: 1px solid #f0f0f0; /* Garis tipis pemisah */
+    background-color: #f9f9f9;
+    display: none; /* Awalnya sembunyi, tampil jika ada gambar */
+}
+
+#chatbot-image-preview-standalone {
+    max-width: 80px;
+    max-height: 80px;
+    border: 1px solid #ddd;
+    padding: 3px;
+    display: block; /* Agar bisa di-margin auto jika parent text-align:center */
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+#chatbot-remove-image-btn-standalone {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    border-radius: 4px;
+    cursor: pointer;
+}
+#chatbot-remove-image-btn-standalone:hover {
+    background-color: #c82333;
+}
+
+/* Form Input Pesan */
+#chatbot-form-standalone {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #ffffff;
+}
+
+#chatbot-message-input-standalone {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px; /* Membuat input lebih bulat */
+    font-size: 0.95em;
+    margin-right: 8px;
+    outline: none;
+}
+#chatbot-message-input-standalone:focus {
+    border-color: #ffc611;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Label untuk Input File (Ikon Paperclip) */
+#chatbot-image-input-label-standalone {
+    padding: 8px 10px;
+    /* background-color: #6c757d; */
+    color: #555; /* Warna ikon */
+    border-radius: 50%; /* Membuatnya bulat */
+    cursor: pointer;
+    font-size: 1.5em; /* Ukuran ikon */
+    line-height: 1;
+    transition: color 0.2s ease-in-out;
+    margin-right: 8px;
+}
+#chatbot-image-input-label-standalone:hover {
+    color: #007bff;
+}
+
+/* Sembunyikan Input File Asli */
+#chatbot-image-input-standalone {
+    display: none;
+}
+
+/* Tombol Kirim */
+#chatbot-submit-btn-standalone {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%; /* Membuatnya bulat */
+    width: 40px; /* Lebar dan tinggi sama untuk lingkaran */
+    height: 40px;
+    font-size: 1.5em; /* Ukuran ikon kirim */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease-in-out;
+    padding: 0; /* Hapus padding default jika ada */
+}
+#chatbot-submit-btn-standalone:hover {
+    background-color: #0056b3;
+}
+
+/* Indikator Loading */
+#chatbot-loading-standalone {
+    display: none; /* Sembunyi secara default */
+    text-align: center;
+    padding: 8px;
+    font-size: 0.9em;
+    color: #555;
+    background-color: #f9f9f9;
+}

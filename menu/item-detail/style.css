@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+}
+body {
+  margin-top: 10rem;
+  background-color: #fff6e5;
+  height: 150dvh;
+}
+#search-icon {
+  font-size: 2rem;
+}
+
+.container {
+  margin-top: 2rem 0rem;
+  width: 1652px;
+  height: 862px;
+  /* background-color: #ffc611; */
+  border-radius: 34.74px;
+}
+
+.card {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  background-color: transparent;
+  align-items: center;
+  margin: 2rem 1rem 2rem 1rem;
+  height: 550px;
+}
+
+.info {
+  border-radius: 18.13px;
+  height: 300px;
+  width: 575px;
+  background-color: rgb(255, 255, 255);
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.gambar img {
+  width: 300px;
+  height: 280px;
+  object-fit: cover;
+  border: rgb(0, 0, 0) solid 4px;
+  margin: 1rem;
+}
+
+.info {
+  border-radius: 18.13px;
+  max-width: 575px;
+  height: 400px;
+  background-color: white;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  flex: 1;
+}
+
+.info h2 {
+  font-size: 30px;
+  font-family: inter;
+}
+.info p {
+  font-family: inter;
+  font-size: 15px;
+}
+
+.fixed button {
+  background-color: #164058;
+  color: white;
+  padding: 1rem;
+}
+
+.fixed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#profil-icon {
+  font-size: 3rem;
+}
+
+.right-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 2rem;
+}
+
+#isFixed{
+  background-color: rgb(255, 255, 255);
+  border-radius: 7px;
+  width: 330px;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 17px;
+  padding: 10px;
+}
+
+

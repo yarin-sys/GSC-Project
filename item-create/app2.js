@@ -1,9 +1,11 @@
 
+import { refreshToken } from "../item-list/app.js";
+
 const warningPrice = document.getElementById('warning-price');
 
 function isTokenNotValid(jsonData) {
     if(jsonData.code && jsonData.code === 'token_not_valid'){
-        // run a refresh token query
+        refreshToken();
 
         alert("Please Login Again");
         window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
@@ -18,17 +20,12 @@ const authToken = localStorage.getItem('access');
 window.addEventListener("load", (event) => {
     event.preventDefault();
     const itemsForm = document.getElementById('itemsForm');
-    let fileInput = document.querySelector('input[type="file"]');
 
 
     itemsForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         let itemsFormData = new FormData(itemsForm);
-
-        // mandatory if you input file (in this case image)
-        let fileInput = document.querySelector('input[type="file"]');
-        itemsFormData.append('file', fileInput.files[0]);
     
         fetch('http://localhost:8000/items/', {
             method: 'POST',
@@ -37,8 +34,7 @@ window.addEventListener("load", (event) => {
             },
             body: itemsFormData
         })
-        .then(async response => {
-            const data = await response.json();  // tetap ambil JSON untuk tahu pesan error
+        .then(response => {
         
             if (!response.ok) {
                 // contoh error handling spesifik
@@ -47,13 +43,18 @@ window.addEventListener("load", (event) => {
                 }
                 throw new Error(`Server Error: ${response.status}`);
             }
-        
+            
+            return response.json();
+
+        })
+        .then(data => {
             const isValid = isTokenNotValid(data);
             if (isValid) {
                 console.log('Response:', data);
                 alert("Data berhasil dikirim");
+                // itemsForm.reset();
+                window.location.href = "http://localhost:5500/menu/menu.html";
                 itemsForm.reset();
-                window.location.href = "http://localhost:5500/item-list/index.html";
             }
         })
         .catch(error => {
@@ -64,5 +65,17 @@ window.addEventListener("load", (event) => {
     });
     
 })
+
+// Toggle search bar visibility
+document.addEventListener("DOMContentLoaded", () => {
+    const searchIcon = document.getElementById("search-icon");
+    const searchForm = document.getElementById("search-form");
+  
+    if (searchIcon && searchForm) {
+      searchIcon.addEventListener("click", () => {
+        searchForm.style.display = searchForm.style.display === "none" ? "flex" : "none";
+      });
+    }
+  });
 
 

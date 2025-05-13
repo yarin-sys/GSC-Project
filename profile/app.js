@@ -1,8 +1,9 @@
 import { jwtDecode } from "https://cdn.jsdelivr.net/npm/jwt-decode@4.0.0/build/esm/index.js";
+import { refreshToken } from "../item-list/app.js";
 
 function isTokenNotValid(jsonData) {
     if(jsonData.code && jsonData.code === 'token_not_valid'){
-        // run a refresh token query
+        refreshToken();
 
         alert("Please Login Again");
         window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
@@ -60,12 +61,3 @@ if (authToken) {
   console.error("Token tidak ditemukan di localStorage");
 }
 
-
-            // <img src="${data.profile_pict}" class="card-img-top img-fluid  d-block mt-3" alt="${data.username}" style="width: 100px; height:100px; object-fit: cover;">
-            // <div class="p-3">
-            
-            // </div>
-            // <h5 class="card-title">${data.username}</h5>
-            // <p class="card-text"><strong>Alamat:</strong> ${data.address} </p>
-            // <p class="card-text"><strong>No Telepon:</strong> ${data.phone} </p>
-            // <p class="card-text"><strong>Email:</strong> ${data.email} </p>
