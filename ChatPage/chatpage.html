@@ -39,8 +39,7 @@
   </div>
 </nav>
 
-<!-- Centered Wrapper -->
-<div class="center-wrapper">
+<div class="center-wrapper mt-5 pt-5">
   <!-- Main Chat Section -->
   <div class="container main-container">
     <div class="row g-4">
@@ -58,27 +57,12 @@
 
       <!-- Chat Section -->
       <div class="col-md-8">
-        <div class="chat-box">
+        <div class="chat-box" id="chat-box"></div>
 
-          <!-- Offer Box -->
-          <div class="offer-box">
-            <h6 class="mb-1">Black Chair</h6>
-            <p class="mb-2">Rp350.000</p>
-            <button>Confirm</button>
-            <button>Deny</button>
-          </div>
-
-          <!-- Negotiation Input Bubble (hidden initially) -->
-          <div id="negotiation-bubble" style="display: none;" class="chat-bubble-right">
-            <img src="Images/test.png" class="rounded-circle" width="35" height="35" alt="User" />
-            <input id="negotiation-input" type="text" class="form-control" placeholder="Enter your price offer..." style="max-width: 70%; border-radius: 15px;"/>
-          </div>
-
-          <!-- Input Field -->
-          <div class="input-group mt-3">
-            <span class="input-group-text" id="plus-button" style="cursor: pointer;">+</span>
-            <input type="text" class="form-control chat-input" placeholder="Type Chat" />
-          </div>
+        <!-- Input Field -->
+        <div class="input-group mt-3">
+          <span class="input-group-text" id="plus-button" style="cursor: pointer;">+</span>
+          <input type="text" class="form-control chat-input" placeholder="Type Chat" id="text-input"/>
         </div>
       </div>
     </div>

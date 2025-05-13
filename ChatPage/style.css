@@ -38,7 +38,7 @@ body {
   border-radius: 20px;
   padding: 20px;
   height: 500px;
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: flex-end;
   overflow-y: auto;
