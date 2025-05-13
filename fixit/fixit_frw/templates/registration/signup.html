@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="form-wrap" style="border-radius: 7.5px; width: 550px; height: 900px; font-size: 10px;"  >
+    <h2><b>Buat Akun</b></h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" style="background-color:rgb(184, 109, 17); padding: 15px; border-radius: 5px; color:white;" class="">Submit</button>
+    </form>
+    <a class="signup-link" style="background-color:rgb(4, 25, 182); padding: 15px; border-radius: 5px; color:white;" href="{% url 'login' %}"><b>Login</b></a>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock content %}
