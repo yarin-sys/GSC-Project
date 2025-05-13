@@ -15,7 +15,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-bottom: 3.7rem; */
+  margin-bottom: 2.7rem;
 }
 
 .nav {
@@ -83,6 +83,7 @@ nav {
 #signupForm button {
   background-color: #164058;
   color: #fff6e5;
+  cursor: pointer;
 }
 
 #login-btn a {
@@ -165,4 +166,12 @@ li {
   flex-direction: column;
   gap: 1.9rem;
   width: 492.48358154296875px;
+}
+
+.teks-input textarea {
+  padding: 1rem;
+  font-family: inter;
+  font-size: 26.29px;
+  font-weight: 700;
+  height: 150px;
 }
