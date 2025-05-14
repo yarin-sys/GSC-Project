@@ -18,7 +18,7 @@ python3 manage.py makemigrations fixit_frw
 python3 manage.py migrate
 
 # create super user
-python3 manage.py 
+python3 manage.py createsuperuser
 
 # run the server
-python3 manage.py 
+python3 manage.py runserver
