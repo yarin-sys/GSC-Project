@@ -37,7 +37,7 @@ class ItemsSerializer(serializers.ModelSerializer):
     owner = UserSerializer(source='user', read_only=True)
     class Meta:
         model = Items
-        fields = ['id','created', 'item_name', 'owner','rate', 'picture',
+        fields = ['id','created', 'item_name', 'owner','rate','category', 'picture',
                   'deskripsi', 'pick_address', 'price_offered','price_final' ,'fixed']
         
     def create(self, validated_data):
@@ -55,7 +55,7 @@ class ItemOrdeersSerializer(serializers.ModelSerializer):
     fixed = serializers.ReadOnlyField()
     class Meta:
         model = Items
-        fields = ['id','created', 'item_name', 'picture', 'rate', 
+        fields = ['id','created', 'item_name', 'picture', 'rate', 'category',
                   'deskripsi', 'pick_address', 'price_offered','price_final' ,'fixed']
         
     def create(self, validated_data):

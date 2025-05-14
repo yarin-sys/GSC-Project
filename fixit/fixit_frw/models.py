@@ -36,12 +36,18 @@ class Items(models.Model):
         CONSIDERABLE = 3
         DANGEROUS = 4
         EXTREME =5
+        
+    class Category(models.TextChoices):
+        HOUSE_APPLIANCES = "HOUSE_APPLIANCES"
+        ELECTRONIC = "ELECTRONIC"
+        OTHER = "OTHER"
     
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='items')
     created = models.DateTimeField(auto_now_add=True)
     item_name = models.CharField(max_length=150, db_index=True, default='')
     picture = models.ImageField(upload_to='items/', null=False, blank=False)
-    rate = models.IntegerField(default=2, choices=Level.choices)
+    category = models.TextField(choices=Category.choices, default="OTHER", blank=False, null=False)
+    rate = models.IntegerField(default=2, choices=Level.choices, null=False, blank=False)
     deskripsi = models.TextField(blank=False, null=False)
     pick_address = models.TextField(null=True, blank=True)
     price_offered = models.BigIntegerField(null=True, blank=True)
