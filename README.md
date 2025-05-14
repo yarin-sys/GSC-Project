@@ -7,7 +7,7 @@ cd fixit
 pyhton3 -m venv env
 
 # activate env (mandatory)!!
-source env/bin/activate
+source env/bin/activate || 
 myenv\Scripts\activate (windows)
 
 # install dependency
