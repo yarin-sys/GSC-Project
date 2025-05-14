@@ -8,6 +8,7 @@ pyhton3 -m venv env
 
 # activate env (mandatory)!!
 source env/bin/activate
+myenv\Scripts\activate (windows)
 
 # install dependency
 pip install -r requirements.py (make sure you at right directory)
