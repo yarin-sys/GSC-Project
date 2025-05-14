@@ -11,23 +11,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  const scrollWrapper = document.querySelector('.scrolling-wrapper');
+  const scrollWrapper = document.querySelector(".scrolling-wrapper");
 
   if (scrollWrapper) {
-    scrollWrapper.addEventListener('wheel', function (e) {
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-        scrollWrapper.scrollBy({
-          left: e.deltaY < 0 ? -100 : 100,
-          behavior: 'smooth'
-        });
-      }
-    }, { passive: false }); // Important to allow preventDefault()
+    scrollWrapper.addEventListener(
+      "wheel",
+      function (e) {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          scrollWrapper.scrollBy({
+            left: e.deltaY < 0 ? -100 : 100,
+            behavior: "smooth",
+          });
+        }
+      },
+      { passive: false }
+    ); // Important to allow preventDefault()
   }
 });
 
 //Fetch API
-
 
 const itemMenu = document.getElementById("itemMenu");
 const houseItem = document.getElementById("houseItem");
@@ -58,12 +61,11 @@ function showData(data) {
     let htmlStr = "";
     let electStr = "";
     let houStr = "";
-    let othStr= "";
+    let othStr = "";
 
     let result_data = data;
 
     for (let result of result_data) {
-
       htmlStr += `
                 <div class="card custom-card me-3">
                   <img src="${result.picture}" class="card-img-top" alt="${result.item_name}">
@@ -110,7 +112,6 @@ function showData(data) {
         default:
           break;
       }
-
     }
     itemMenu.innerHTML = htmlStr;
     houseItem.innerHTML = houStr;
@@ -124,7 +125,6 @@ function showData(data) {
     itemMenu.innerHTML = "<p>Tidak ada Items </p>";
   }
 }
-
 
 const options = {
   method: "GET",
@@ -143,5 +143,20 @@ fetch(endpoint, options)
     console.log(error);
   });
 
+const chatbotPopup = document.getElementById("chatbot-container-standalone");
+const popupIcon = document.getElementById("pop-up");
 
+document.getElementById("pop-up").addEventListener("click", function () {
+  if (chatbotPopup.style.display === "none" || chatbotPopup.style.display === "") {
+    chatbotPopup.style.display = "flex";
+  } else {
+    chatbotPopup.style.display = "none";
+  }
+});
 
+document.addEventListener("click", (event) => {
+  const isClickInside = chatbotPopup.contains(event.target) || popupIcon.contains(event.target);
+  if (!isClickInside) {
+    chatbotPopup.style.display = "none";
+  }
+});

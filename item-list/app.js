@@ -10,46 +10,46 @@ if (searchForm) {
 const authToken = localStorage.getItem("access");
 
 export function refreshToken() {
-  const refresh = localStorage.getItem('refresh'); // Ambil refresh token dari localStorage
+  const refresh = localStorage.getItem("refresh"); // Ambil refresh token dari localStorage
 
   if (!refresh) {
-      alert("No refresh token found. Please login again.");
-      window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-      return;
+    alert("No refresh token found. Please login again.");
+    window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
+    return;
   }
 
-  fetch('http://localhost:8000/api/token/refresh/', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ refresh: localStorage.getItem('refresh') })
+  fetch("http://localhost:8000/api/token/refresh/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refresh: localStorage.getItem("refresh") }),
   })
-  .then(response => {
+    .then((response) => {
       if (!response.ok) {
-          throw new Error('Refresh token invalid');
+        throw new Error("Refresh token invalid");
       }
       return response.json();
-  })
-  .then(data => {
+    })
+    .then((data) => {
       // Simpan access token baru
-      localStorage.setItem('access', data.access);
-      console.log('Token refreshed');
-  })
-  .catch(error => {
-      console.error('Error refreshing token:', error);
+      localStorage.setItem("access", data.access);
+      console.log("Token refreshed");
+    })
+    .catch((error) => {
+      console.error("Error refreshing token:", error);
       alert("Session expired. Please login again.");
       window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-  });
+    });
 }
 
 function isTokenNotValid(jsonData) {
-  if(jsonData.code && jsonData.code === 'token_not_valid'){
-      refreshToken();
+  if (jsonData.code && jsonData.code === "token_not_valid") {
+    refreshToken();
 
-      alert("Please Login Again");
-      window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
-      return false;
+    alert("Please Login Again");
+    window.location.href = "http://127.0.0.1:5500/signup-login/login/index.html";
+    return false;
   }
   return true;
 }
@@ -64,37 +64,36 @@ function showData(data) {
     let htmlStr = "";
     let result = data[0];
 
+    let rateString;
 
-      let rateString;
+    switch (result.rate) {
+      case 1:
+        rateString = "Low";
+        break;
+      case 2:
+        rateString = "Moderate";
+        break;
+      case 3:
+        rateString = "Considerable";
+        break;
+      case 4:
+        rateString = "Dangerous";
+        break;
+      case 5:
+        rateString = "Considerable";
+        break;
+      default:
+      // code block
+    }
 
-      switch (result.rate) {
-        case 1:
-          rateString = "Low";
-          break;
-        case 2:
-          rateString = "Moderate";
-          break;
-        case 3:
-          rateString = "Considerable";
-          break;
-        case 4:
-          rateString = "Dangerous";
-          break;
-        case 5:
-          rateString = "Considerable";
-          break;
-        default:
-        // code block
-      }
+    //   .toLocaleString("id-ID")
 
-      //   .toLocaleString("id-ID")
+    // Owner & Harga akhir
+    let ownerInfo = result.owner ? `<p class="card-text"><strong>Owner:</strong> ${result.owner.username}</p>` : "";
+    let finalPriceInfo = result.price_final ? `<p class="card-text"><strong>Harga akhir:</strong> Rp${result.price_final.toLocaleString("id-ID")}</p>` : "";
+    let fixedText = result.fixed ? '<button style="background-color : green;">FIXED ! !</button>' : '<button style="background-color: #164058;">On Progress</button>';
 
-      // Owner & Harga akhir
-      let ownerInfo = result.owner ? `<p class="card-text"><strong>Owner:</strong> ${result.owner.username}</p>` : "";
-      let finalPriceInfo = result.price_final ? `<p class="card-text"><strong>Harga akhir:</strong> Rp${result.price_final.toLocaleString("id-ID")}</p>` : "";
-      let fixedText = result.fixed ? '<button style="background-color : green;">FIXED ! !</button>' : '<button style="background-color: #164058;">On Progress</button>';
-
-      htmlStr += `
+    htmlStr += `
             <div class="card p-5" style="background-color: #ffc611; border-radius:34.74px; margin-bottom: 10rem">
                 <div class="gambar">
                 <img src="${result.picture}" class="card-img-top img-fluid mx-auto d-block mt-3" alt="${result.item_name}" />
@@ -118,7 +117,7 @@ function showData(data) {
                 </div>
             </div>
                 `;
-    
+
     contentContainer.innerHTML = htmlStr;
     if (!data[0]) {
       contentContainer.innerHTML = "<p> Tidak ada Items </p>";
@@ -156,3 +155,9 @@ function handleSearch(e) {
     });
 }
 
+document.addEventListener("click", (event) => {
+  const isClickInside = chatbotContainer.contains(event.target) || popupIcon.contains(event.target);
+  if (!isClickInside) {
+    chatbotContainer.style.display = "none";
+  }
+});
