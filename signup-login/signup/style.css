@@ -175,3 +175,22 @@ li {
   font-weight: 700;
   height: 150px;
 }
+
+.teks-box {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+}
+
+#terms {
+  /* padding: 4rem; */
+  width: 3rem;
+  height: 3rem;
+}
+
+.teks-box label {
+  padding: 1rem;
+  font-family: inter;
+  font-size: 26.29px;
+  font-weight: 700;
+}
