@@ -11,31 +11,43 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
+from django.core.management.utils import get_random_secret_key
+from decouple import config
 
 import datetime
 from django.contrib.messages import constants as messages
 
-load_dotenv()
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+REPO_DIR = BASE_DIR.parent
 
+print( REPO_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = config("DJANGO_SECRET_KEY", cast=str, default=get_random_secret_key())
 # SECRET_KEY = 'django-insecure-yqmh163==i&!7b!v)t+(vzl!-=9ovy^70^7$8pw11c7xt*#556'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = os.environ.get("DEBUG") == "true"
+DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    ".railway.app"
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app"
+]
+
+if DEBUG :
+    ALLOWED_HOSTS = ["*"]
 
 # Application definition
 

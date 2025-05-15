@@ -60,6 +60,7 @@ Pygments==2.19.1
 PyJWT==2.10.1
 pyparsing==3.2.1
 PySocks==1.7.1
+python-decouple==3.8
 python-dotenv==1.0.1
 pyzmq==26.2.1
 redis==5.2.1
