@@ -11,15 +11,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-# import os
-# from dotenv import load_dotenv
+import os
+from dotenv import load_dotenv
 from django.core.management.utils import get_random_secret_key
 from decouple import config
 
 import datetime
 from django.contrib.messages import constants as messages
 
-# load_dotenv()
+load_dotenv('.env.local')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,20 +31,15 @@ print( REPO_DIR)
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("DJANGO_SECRET_KEY", cast=str, default=get_random_secret_key())
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECRET_KEY = 'django-insecure-yqmh163==i&!7b!v)t+(vzl!-=9ovy^70^7$8pw11c7xt*#556'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
+DEBUG = bool(os.getenv("DEBUG", default=0))
 
-ALLOWED_HOSTS = [
-    ".railway.app"
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.railway.app"
-]
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "https://127.0.0.1").split(",")
 
 if DEBUG :
     ALLOWED_HOSTS = ["*"]
@@ -121,15 +116,17 @@ WSGI_APPLICATION = 'fixit.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fixit',
-        'USER': 'vidky',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.{}'.format(
+             os.getenv('DATABASE_ENGINE', 'sqlite3')
+         ),
+         'NAME': os.getenv('DATABASE_NAME', 'farming'),
+         'USER': os.getenv('DATABASE_USERNAME', 'vidky'),
+         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'vickyganteng**'),
+         'HOST': os.getenv('DATABASE_HOST', '127.0.0.1'),
+         'PORT': os.getenv('DATABASE_PORT', 5432),
+     }
+ }
 
 
 # Password validation
@@ -167,6 +164,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR/ "staticfiles"
 # STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
