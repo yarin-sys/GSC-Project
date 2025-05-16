@@ -16,6 +16,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #fff6e5; backdrop-filter: blur(15px); padding: 1rem 2rem" data-bs-theme="light">
+      <div class="container-fluid">
+        <a href="index.html">
+          <img src="/assets/img/logo-fixit.jpg" class="img-fluid" alt="" style="z-index: 1000; width: 157px; height: 60px" />
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/item-list/index.html" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Search Item</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="http://127.0.0.1:5500/menu/menu.html" style="font-size: 26px; font-family: inter; margin-left: 2.3rem; font-weight: 400; color: #164058">Menu</a>
+            </li>
+          </ul>
+          <div class="right-nav">
+            <a href="/profile/index.html" style="color: black">
+              <i class="fa-solid fa-circle-user" id="profil-icon" style="font-size: 3rem"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
     <main>
       <div class="container-card">
         <div class="pict-desc">
@@ -24,11 +49,17 @@
           </div>
           <div class="desc">
             <h1 style="font-weight: 700">Broken Drill</h1>
+            <h2><b>Agreed fee:</b> Rp50000</h2>
+            <div class="address">
+              <h2>Pickup Adress:</h2>
+              <!-- <br /> -->
+              <p>Jl. Raya No. 123, Jakarta</p>
+            </div>
           </div>
         </div>
         <div class="confirm">
           <div class="map" onclick="goToHalamanB()">
-            <iframe src="/maps/index.html" frameborder="0" onclick="goToHalamanB()"></iframe>
+            <iframe src="/maps/index.html" frameborder="1" onclick="goToHalamanB()"></iframe>
             <button>GO TO MAP</button>
           </div>
           <div class="btn">
