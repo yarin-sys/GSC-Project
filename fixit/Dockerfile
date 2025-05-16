@@ -47,7 +47,8 @@ ENV PYTHONUNBUFFERED=1
 USER appuser
  
 # Expose the application port
-EXPOSE 8000 
+# ENV PORT 8080
+EXPOSE 8080
 
 # Make entry file executable
 RUN chmod +x  /app/entrypoint.prod.sh

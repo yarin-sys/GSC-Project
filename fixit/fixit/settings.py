@@ -41,6 +41,7 @@ DEBUG = bool(os.getenv("DEBUG", default=0))
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(",")
 CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "https://127.0.0.1").split(",")
 
+
 if DEBUG :
     ALLOWED_HOSTS = ["*"]
 
@@ -90,7 +91,7 @@ if DEBUG:
     CORS_ALLOWED_ORIGINS += [
         'http://127.0.0.1:5500',
         'http://localhost:5500',
-        'http://127.0.0.1:8000',
+        'http://127.0.0.1:8080',
     ]
 
 TEMPLATES = [
