@@ -1,0 +1,33 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fff6e5;
+}
+
+.navbar-nav .nav-link {
+  font-size: 26px;
+  font-weight: 400;
+  color: #164058;
+  margin-left: 2.3rem;
+}
+
+.form-wrapper {
+  background-color: #fdbb00;
+  margin-top: 6rem;
+}
+
+.upload-box {
+  width: 100%;
+  padding-top: 100%; /* 1:1 aspect ratio */
+  background-color: white;
+  border: 2px solid #164058;
+  border-radius: 10px;
+  position: relative;
+}
+
+.upload-box i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #164058;
+}
