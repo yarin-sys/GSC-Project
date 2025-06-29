@@ -19,6 +19,10 @@ class IsStaffOrOwner(permissions.BasePermission):
     Hanya user staff ATAU user yang mengakses data dirinya sendiri yang diizinkan.
     """
 
+    def has_permission(self, request, view):
+        # Pastikan user authenticated untuk semua operations
+        return request.user and request.user.is_authenticated
+
     def has_object_permission(self, request, view, obj):
         # Pastikan user authenticated
         if not (request.user and request.user.is_authenticated):
@@ -29,5 +33,4 @@ class IsStaffOrOwner(permissions.BasePermission):
             return True
 
         # Non-staff hanya bisa akses item miliknya sendiri
-        # Perbaikan: obj.user bukan obj.id
         return obj.user == request.user

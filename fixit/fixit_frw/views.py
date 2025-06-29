@@ -9,7 +9,7 @@ from rest_framework.response import Response
 # from rest_framework.views import APIView
 from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 from rest_framework import generics,status, permissions
-from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignupSerializer
+from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignUpSerializer
 from .models import Items
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
@@ -19,7 +19,7 @@ from api.permissions import IsStaffOrOwner
 
 User = get_user_model()
 class SignupView2(generics.CreateAPIView):
-    serializer_class = SignupSerializer
+    serializer_class = SignUpSerializer
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [AllowAny]
 

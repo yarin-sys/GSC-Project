@@ -2,14 +2,22 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Q
 
+
 class User(AbstractUser):
-    phone = models.CharField(null=True, blank=True,unique=True, max_length=20)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    phone = models.CharField(null=True, blank=True, unique=True, max_length=20)
     address = models.TextField()
     profile_pict = models.ImageField(upload_to='profile/', null=False, blank=False)
-    
+
     def delete(self, *args, **kwargs):
-        self.picture.delete(save=False)  # Tambahkan save=False agar tidak error
+        if self.profile_pict:
+            self.profile_pict.delete(save=False)
         super().delete(*args, **kwargs)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['email'], name='unique_email')
+        ]
         
 class ItemQuerySet(models.QuerySet):
     def search(self, query, user=None):

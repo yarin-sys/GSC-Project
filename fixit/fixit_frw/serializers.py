@@ -1,33 +1,63 @@
+
+from .models import Items
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Items
+from django.contrib.auth.password_validation import validate_password
 
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'address','phone', 'profile_pict', 'email']  
+        fields = ['id', 'username', 'address','phone', 'profile_pict', 'email']
 
-class SignupSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(write_only=True)
+class SignUpSerializer(serializers.ModelSerializer):
+    password1 = serializers.CharField(write_only=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
         fields = ['username', 'email', 'phone', 'address', 'profile_pict', 'password1', 'password2']
+        extra_kwargs = {
+            'email': {'required': True},
+            'username': {'required': True},
+            'phone': {'required': True},
+            'address': {'required': True},
+            'profile_pict': {'required': True},
+        }
 
-    def validate(self, data):
-        if data['password1'] != data['password2']:
-            raise serializers.ValidationError("Passwords do not match.")
-        return data
+    def validate_email(self, value):
+        """Validasi email harus unique"""
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Email sudah terdaftar.")
+        return value
+
+    def validate_phone(self, value):
+        """Validasi phone harus unique jika diisi"""
+        if value and User.objects.filter(phone=value).exists():
+            raise serializers.ValidationError("Nomor telepon sudah terdaftar.")
+        return value
+
+    def validate(self, attrs):
+        """Validasi password1 dan password2 harus sama"""
+        if attrs['password1'] != attrs['password2']:
+            raise serializers.ValidationError("Password tidak cocok.")
+        return attrs
 
     def create(self, validated_data):
-        validated_data.pop('password2')
+        # Hapus password2 karena tidak perlu disimpan
+        validated_data.pop('password2', None)
         password = validated_data.pop('password1')
-        user = User(**validated_data)
-        user.set_password(password)
-        user.save()
+
+        # Buat user
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=password,
+            phone=validated_data.get('phone'),
+            address=validated_data.get('address'),
+            profile_pict=validated_data.get('profile_pict')
+        )
         return user
         
 # Serializer for fixer
