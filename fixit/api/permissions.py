@@ -11,3 +11,13 @@ class IsStaffEditorPermission(permissions.DjangoModelPermissions):
         'PATCH': ['%(app_label)s.change_%(model_name)s'],
         'DELETE': ['%(app_label)s.delete_%(model_name)s'],
         }
+        
+class IsStaffOrOwner(permissions.BasePermission):
+    """
+    Hanya user staff ATAU user yang mengakses data dirinya sendiri yang diizinkan.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        return request.user and request.user.is_authenticated and (
+            request.user.is_staff or obj.id == request.user.id
+        )

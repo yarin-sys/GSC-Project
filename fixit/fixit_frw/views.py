@@ -6,16 +6,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from rest_framework import status
 # from rest_framework.views import APIView
 from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
-from rest_framework import generics,status
+from rest_framework import generics,status, permissions
 from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignupSerializer
 from .models import Items
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import AllowAny
+from api.permissions import IsStaffOrOwner
 
 User = get_user_model()
 class SignupView2(generics.CreateAPIView):
@@ -88,6 +88,16 @@ class SignUpView(generics.ListCreateAPIView):
             return Response({"message": "Profil diperbarui (parsial)"})
         return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
     
+# Permission kustom: hanya user staff yang diizinkan
+class StaffOnlyPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated and request.user.is_staff
+
+class UsersView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated, StaffOnlyPermission]
+    
 # get all items
 class ItemsView(  StaffEditorPermissionMixin, 
                   UserQuerySetMixin, 
@@ -100,6 +110,7 @@ class ItemsView(  StaffEditorPermissionMixin,
         if self.request.user.is_staff:
             return ItemsSerializer
         return ItemOrdeersSerializer
+
     
 # get detail item
 class ItemDetailView(   StaffEditorPermissionMixin, 
@@ -131,18 +142,8 @@ class ItemDetailView(   StaffEditorPermissionMixin,
         return ItemOrdeersSerializer
 
     
-class UserList(StaffEditorPermissionMixin, 
-               generics.ListAPIView):
+class UserDetail(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
-class UserDetail(   StaffEditorPermissionMixin, 
-                    generics.RetrieveUpdateAPIView
-                    ):
-    
-    serializer_class = UserSerializer
     lookup_field = 'pk'
-    
-    def get_queryset(self):
-        pk = self.kwargs.get(self.lookup_field)
-        return User.objects.filter(pk=pk)
+    permission_classes = [permissions.IsAuthenticated, IsStaffOrOwner] 
