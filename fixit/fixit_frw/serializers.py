@@ -64,7 +64,7 @@ class ItemOrdeersSerializer(serializers.ModelSerializer):
     
     def validate_price_offered(self, value):
         if value < 0:
-            raise serializers.ValidationError("price_offered must be grather than 0")
+            raise serializers.ValidationError("price_offered must be greter than 0")
         return value
     
             

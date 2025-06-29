@@ -99,12 +99,14 @@ class UsersView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated, StaffOnlyPermission]
     
 # get all items
-class ItemsView(  StaffEditorPermissionMixin, 
-                  UserQuerySetMixin, 
-                  generics.ListCreateAPIView
-                  ):
+class ItemsView(
+                    # StaffEditorPermissionMixin, 
+                    UserQuerySetMixin, 
+                    generics.ListCreateAPIView
+                ):
     parser_classes = [MultiPartParser, FormParser]
     queryset = Items.objects.all().select_related('user')
+    permission_classes = [IsStaffOrOwner]
     
     def get_serializer_class(self):
         if self.request.user.is_staff:
@@ -113,36 +115,34 @@ class ItemsView(  StaffEditorPermissionMixin,
 
     
 # get detail item
-class ItemDetailView(   StaffEditorPermissionMixin, 
-                        UserQuerySetMixin, 
-                        generics.RetrieveUpdateDestroyAPIView
-                    ):
-    # queryset = Items.objects.all().select_related('user')
+# fixit_frw/views.py
+class ItemDetailView(UserQuerySetMixin, generics.RetrieveUpdateDestroyAPIView):
     parser_classes = [MultiPartParser, FormParser]
     lookup_fields = ['pk']
-    
+    permission_classes = [IsStaffOrOwner]  # Hanya gunakan satu permission
+
     def get_queryset(self):
         qs = Items.objects.all().select_related('user')
         return qs
-    
+
     def get_object(self):
-        queryset = self.get_queryset()             # Get the base queryset
-        queryset = self.filter_queryset(queryset)  # Apply any filter backends
+        queryset = self.get_queryset()
+        queryset = self.filter_queryset(queryset)
         filter = {}
         for field in self.lookup_fields:
-            if self.kwargs.get(field): # Ignore empty fields.
+            if self.kwargs.get(field):
                 filter[field] = self.kwargs[field]
-        obj = get_object_or_404(queryset, **filter)  # Lookup the object
+        obj = get_object_or_404(queryset, **filter)
         self.check_object_permissions(self.request, obj)
         return obj
-    
+
     def get_serializer_class(self):
         if self.request.user.is_staff:
             return ItemsSerializer
         return ItemOrdeersSerializer
 
     
-class UserDetail(generics.RetrieveUpdateAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'pk'
