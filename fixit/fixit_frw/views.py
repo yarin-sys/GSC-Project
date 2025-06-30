@@ -146,4 +146,5 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'pk'
-    permission_classes = [permissions.IsAuthenticated, IsStaffOrOwner] 
+    permission_classes = [permissions.IsAuthenticated, IsStaffOrOwner]
+

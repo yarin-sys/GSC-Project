@@ -1,6 +1,6 @@
 # api/permissions.py
 from rest_framework import permissions
-
+from django.contrib.auth import get_user_model
 
 class IsStaffEditorPermission(permissions.DjangoModelPermissions):
     perms_map = {
@@ -24,13 +24,17 @@ class IsStaffOrOwner(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        # Pastikan user authenticated
         if not (request.user and request.user.is_authenticated):
             return False
 
-        # Staff bisa akses semua
         if request.user.is_staff:
             return True
 
-        # Non-staff hanya bisa akses item miliknya sendiri
-        return obj.user == request.user
+        # Handle berbagai tipe object
+        if hasattr(obj, 'user'):  # Untuk model dengan field 'user'
+            return obj.user == request.user
+        elif isinstance(obj, get_user_model()):  # Untuk User object
+            return obj == request.user
+
+        # Default: tidak ada permission
+        return False

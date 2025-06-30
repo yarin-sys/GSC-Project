@@ -7,7 +7,7 @@ import  uuid
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=False, blank=False)
     phone = models.CharField(null=True, blank=True, unique=True, max_length=20)
-    address = models.TextField()
+    address_id = models.ForeignKey('Address', on_delete=models.CASCADE, related_name='user', blank=True, null=True)
     profile_pict = models.ImageField(upload_to='profile/', null=False, blank=False)
 
     def delete(self, *args, **kwargs):
@@ -52,7 +52,7 @@ class Items(models.Model):
     picture = models.ImageField(upload_to='items/', null=False, blank=False)
     rate = models.IntegerField(default=2, choices=Level.choices)
     deskripsi = models.TextField(blank=False, null=False)
-    pick_address = models.TextField(null=True, blank=True)
+    address_id = models.ForeignKey('Address', on_delete=models.CASCADE, related_name='items')
     price_offered = models.BigIntegerField(null=True, blank=True)
     price_final = models.BigIntegerField(null=True, blank=True)
     fixed = models.BooleanField(default=False, null=False, blank=False)
@@ -62,6 +62,15 @@ class Items(models.Model):
     class Meta:
         ordering = ['created']
         db_table = 'items'
+
+    @property
+    def address(self):
+        if self.address_id:
+            try:
+                return Address.objects.get(address_id=self.address_id)
+            except Address.DoesNotExist:
+                return None
+        return None
     
     def __str__(self):
         if self.fixed:
@@ -71,8 +80,8 @@ class Items(models.Model):
         return f"{self.item_name}({self.user } => {self.created})[{msg}]"
     
     def save(self, *args, **kwargs):
-        if not self.pick_address and self.user:
-            self.pick_address = self.user.address
+        if not self.address_id and self.user:
+            self.address_id = self.user.address_id
         super().save(*args, **kwargs)
         
     def delete(self, *args, **kwargs):

@@ -14,6 +14,11 @@ from pathlib import Path
 import datetime
 from django.contrib.messages import constants as messages
 import os
+from dotenv import load_dotenv
+
+load_dotenv = __import__('dotenv').load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +33,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-yqmh163==i&!7b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 
 # Application definition
@@ -105,7 +110,7 @@ WSGI_APPLICATION = 'fixit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DATABASE_NAME', 'fixit_frw'),
+        'NAME': os.environ.get('DATABASE_NAME', 'fixit'),
         'USER': os.environ.get('DATABASE_USERNAME', 'vidky'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'vickyganteng!!'),
         'HOST': 'localhost',

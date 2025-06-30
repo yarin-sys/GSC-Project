@@ -7,11 +7,11 @@ User = get_user_model()
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username", "email", "phone","profile_pict" ,"address", "password1", "password2")
+        fields = ("username", "email", "phone","profile_pict" ,"address_id", "password1", "password2")
         
 class  CustomUserChangeForm(UserCreationForm):
     password1 = None #hiding password1
     password2 = None #hiding password2
     class Meta:
         model = User
-        fields = ("username", "email", "phone","profile_pict" ,"address")
+        fields = ("username", "email", "phone","profile_pict" ,"address_id")

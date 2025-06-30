@@ -1,5 +1,5 @@
 
-from .models import Items
+from .models import Items, Address
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
@@ -9,7 +9,12 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'address','phone', 'profile_pict', 'email']
+        fields = ['id', 'username', 'address_id','phone', 'profile_pict', 'email']
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['province', 'city','street']
 
 class SignUpSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(write_only=True, validators=[validate_password])
@@ -17,12 +22,12 @@ class SignUpSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone', 'address', 'profile_pict', 'password1', 'password2']
+        fields = ['username', 'email', 'phone', 'address_id', 'profile_pict', 'password1', 'password2']
         extra_kwargs = {
             'email': {'required': True},
             'username': {'required': True},
             'phone': {'required': True},
-            'address': {'required': True},
+            'address_id': {'required': True},
             'profile_pict': {'required': True},
         }
 
@@ -55,7 +60,7 @@ class SignUpSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=password,
             phone=validated_data.get('phone'),
-            address=validated_data.get('address'),
+            address_id=validated_data.get('address_id'),
             profile_pict=validated_data.get('profile_pict')
         )
         return user
@@ -68,7 +73,7 @@ class ItemsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Items
         fields = ['id','created', 'item_name', 'owner','rate', 'picture',
-                  'deskripsi', 'pick_address', 'price_offered','price_final' ,'fixed']
+                  'deskripsi', 'address_id', 'price_offered','price_final' ,'fixed']
         
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
@@ -86,7 +91,7 @@ class ItemOrdeersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Items
         fields = ['id','created', 'item_name', 'picture', 'rate', 
-                  'deskripsi', 'pick_address', 'price_offered','price_final' ,'fixed']
+                  'deskripsi', 'address_id', 'price_offered','price_final' ,'fixed']
         
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
