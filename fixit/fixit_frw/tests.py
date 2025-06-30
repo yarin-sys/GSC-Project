@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from PIL import Image
 import io
-from .models import Items, User
+from .models import Items, User, Address
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
@@ -552,3 +552,19 @@ class ItemListTest(APITestCase):
         # Test ordering by price
         response = self.client.get(self.item_list_url, {'ordering': 'price_offered'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+class AddressTest(APITestCase):
+    def setUp(self):
+        Address.objects.create(province='Jawa Tengah', city='Wonogiri', street='Jalan Sukses')
+        Address.objects.create(province='Jawa Tengah', city='Sukoharjo', street='Jalan Ciu')
+        Address.objects.create(province='Jawa Timur', city='Madiun', street='Jalan Pecel')
+
+    def test_create_address(self):
+        wng = Address.objects.get(city='Wonogiri')
+        mdn = Address.objects.get(city='Madiun')
+        skh = Address.objects.get(city='Sukoharjo')
+
+        self.assertEqual(wng.province, 'Jawa Tengah')
+        self.assertEqual(mdn.province, 'Jawa Timur')
+        self.assertEqual(mdn.street, 'Jalan Pecel')
+        self.assertEqual(skh.street, 'Jalan Ciu')

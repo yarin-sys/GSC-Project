@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Q
-
+from fixit_frw.utils.generator import generate_short_id_from_name, generate_custom_id_with_suffix
+import  uuid
 
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=False, blank=False)
@@ -77,4 +78,23 @@ class Items(models.Model):
     def delete(self, *args, **kwargs):
         self.picture.delete(save=False)  # Tambahkan save=False agar tidak error
         super().delete(*args, **kwargs)
-        
+
+class Address(models.Model):
+    address_id = models.CharField(max_length=20, primary_key=True, editable=False)
+    province = models.CharField(max_length=20, null=True, blank=True)
+    city = models.CharField(max_length=20, null=True, blank=True)
+    street = models.CharField(max_length=20, null=True, blank=True)
+
+    class Meta:
+        db_table = 'address'
+
+    def save(self, *args, **kwargs):
+        if not self.address_id:
+            self.address_id = generate_custom_id_with_suffix(self.city)
+        super().save(*args, **kwargs)
+
+class Payments(models.Model):
+    payment_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
+        db_table = 'payments'

@@ -105,9 +105,9 @@ WSGI_APPLICATION = 'fixit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fixit',
+        'NAME': 'fixit_frw',
         'USER': 'vidky',
-        'PASSWORD': '',
+        'PASSWORD': 'Hesoyam1!',
         'HOST': 'localhost',
         'PORT': '5432'
     }
