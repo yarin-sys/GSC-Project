@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yqmh163==i&!7b!v)t+(vzl!-=9ovy^70^7$8pw11c7xt*#556'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-yqmh163==i&!7b!v)t+(vzl!-=9ovy^70^7$8pw11c7xt*#556')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
@@ -70,15 +70,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fixit.urls'
 CORS_URL_REGEX = r"^/api/.*"
-CORS_ALLOWED_ORIGINS  = []
+CORS_ALLOWED_ORIGINS  = os.environ.get('DJANGO_CORS_ALLOWED_ORIGINS', 'http://127.0.0.1:8000').split(',')
 
 # allowed cors only in development server when DEBUG=True
-if DEBUG:
-    CORS_ALLOWED_ORIGINS += [
-        'http://127.0.0.1:5500',
-        'http://localhost:5500',
-        'http://127.0.0.1:8000',
-    ]
+# if DEBUG:
+#     CORS_ALLOWED_ORIGINS += [
+#         'http://127.0.0.1:5500',
+#         'http://localhost:5500',
+#         'http://127.0.0.1:8000',
+#     ]
 
 TEMPLATES = [
     {
@@ -105,11 +105,11 @@ WSGI_APPLICATION = 'fixit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fixit_frw',
-        'USER': 'vidky',
-        'PASSWORD': 'Hesoyam1!',
+        'NAME': os.environ.get('DATABASE_NAME', 'fixit_frw'),
+        'USER': os.environ.get('DATABASE_USERNAME', 'vidky'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'vickyganteng!!'),
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
     }
 }
 
