@@ -419,16 +419,18 @@ class ItemDetailTest(APITestCase):
         response = self.client.patch(
             self.item_detail_url,
             {
-                'item_name': 'Fixed Item Name',
+                'item_name': 'Barang Bobrok',
                 'picture': test_image,
-                'price_offered': 220000
+                'deskripsi': 'wis dadi lo',
+                'price_final': 40000
             },
             format='multipart'
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.user_item.refresh_from_db()
-        self.assertEqual(self.user_item.item_name, 'Fixed Item Name')
-        self.assertEqual(self.user_item.price_offered, 220000)
+        self.assertEqual(self.user_item.item_name, 'Barang Bobrok')
+        self.assertEqual(self.user_item.deskripsi, 'wis dadi lo')
+        self.assertEqual(self.user_item.price_final, 40000)
 
     def test_update_item_with_image(self):
         """Test update item dengan gambar baru"""
@@ -554,8 +556,9 @@ class ItemListTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Pastikan hanya item milik user yang muncul
-        item_names = [item['item_name'] for item in response.data['results'] if 'results' in response.data]
-        if 'results' not in response.data:
+        if 'results' in response.data:
+            item_names = [item['item_name'] for item in response.data['results']]
+        else:
             item_names = [item['item_name'] for item in response.data]
 
         self.assertIn('User Item 1', item_names)
@@ -569,8 +572,14 @@ class ItemListTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Staff melihat semua item
-        item_names = [item['item_name'] for item in response.data['results'] if 'results' in response.data]
-        if 'results' not in response.data:
+
+        # item_names = [item['item_name'] for item in response.data['results'] if 'results' in response.data]
+        # if 'results' not in response.data:
+        #     item_names = [item['item_name'] for item in response.data]
+
+        if 'results' in response.data:
+            item_names = [item['item_name'] for item in response.data['results']]
+        else:
             item_names = [item['item_name'] for item in response.data]
 
         self.assertIn('User Item 1', item_names)
