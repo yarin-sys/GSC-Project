@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib import messages
+from django.views import generic
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
@@ -23,6 +24,14 @@ def index(request):
     }
     # return HttpResponse(template.render(context, request))
     return render(request, "items/index.html", context)
+
+class IndexView(generic.ListView):
+    template_name = "items/index.html"
+    context_object_name = "latest_item_list"
+
+    def get_queryset(self):
+        queryset = Items.objects.order_by('-created')[:5]
+        return queryset
 
 def item_detail(request, pk):
     item = get_object_or_404(Items, pk=pk)

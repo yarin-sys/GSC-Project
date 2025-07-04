@@ -3,7 +3,11 @@ from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
+app_name = 'fixit_frw'
 urlpatterns = [
+
+    path('login/', views.user_login, name='login'),
+
     path('signup/', views.authView, name="authView"),
     path('signup2/', views.SignupView2.as_view(), name="SignUpView"),
     path("accounts/", include("django.contrib.auth.urls")),

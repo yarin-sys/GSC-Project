@@ -1,13 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
 
- <div class="form-wrap align-items-center" style="width: 500px; border-radius: 8px; margin: 2px; background-color:rgb(255, 255, 255); ">
-  <h2 style="">LOGIN</h2>
-  <form method="POST" >
-  {% csrf_token %}
-  {{form}}
-  <button type="submit">Submit</button>
+<div class="form-wrap">
+  <h2><b>LOGIN</b></h2>
+
+  {% if form.errors %}
+    <ul class="error-list">
+      {% for field in form %}
+        {% for error in field.errors %}
+          <li>{{ field.label }}: {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <!-- Custom form rendering untuk kontrol yang lebih baik -->
+    <p>
+      <label for="{{ form.username.id_for_label }}">Username:</label>
+      {{ form.username }}
+    </p>
+
+    <p>
+      <label for="{{ form.password.id_for_label }}">Password:</label>
+      {{ form.password }}
+    </p>
+
+    <div class="form-buttons">
+      <button type="submit" class="submit-btn">Login</button>
+      <a href="{% url 'fixit_frw:authView' %}" class="login-btn">Register</a>
+    </div>
   </form>
+
+  <!-- Link tambahan untuk forgot password -->
+  <div style="text-align: center; margin-top: 1rem;">
+    <a href="#" style="color: #667eea; text-decoration: none; font-size: 14px;">Forgot Password?</a>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" onclick="this.parentElement.style.display='none'">&times;</button>
+      </div>
+    {% endfor %}
+  {% endif %}
 </div>
 
-{% endblock content %}a
+{% endblock content %}

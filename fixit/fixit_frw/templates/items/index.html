@@ -38,7 +38,7 @@
                 {% for item in latest_item_list %}
                   <li class="list-group-item">
                       {# <a href="/item-idx/{{ item.id }}" class="text-decoration-none">#}
-                      <a href="{% url 'item_detail_idx' item.id %}" class="text-decoration-none">
+                      <a href="{% url 'fixit_frw:item_detail_idx' item.id %}" class="text-decoration-none">
                       {{ item.item_name }}
                     </a>
                   </li>

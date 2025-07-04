@@ -1,0 +1,53 @@
+/* Global Font and Body */
+body {
+  font-family: 'Mulish', sans-serif;
+  background-color: #d5d5ab;
+  color: #343a40;
+}
+
+/* Image Styling */
+.item-image {
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+}
+
+/* Form Labels */
+.form-label {
+  font-weight: 600;
+}
+
+/* Headings */
+h2 {
+  font-weight: 700;
+}
+
+/* Badges */
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+/* Button Styling */
+.btn-primary {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
