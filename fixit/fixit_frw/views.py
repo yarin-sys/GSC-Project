@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
-# from django.http import HttpResponseRedirect
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -11,13 +10,24 @@ from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 from rest_framework import generics,status, permissions
 from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignUpSerializer
 from .models import Items
-from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 from rest_framework.permissions import AllowAny
 from api.permissions import IsStaffOrOwner
 
 User = get_user_model()
+
+def index(request):
+    latest_item_list = Items.objects.order_by('-created')[:5]
+    # template = loader.get_template("items/index.html")
+    context = {
+        'latest_item_list': latest_item_list,
+    }
+    # return HttpResponse(template.render(context, request))
+    return render(request, "items/index.html", context)
+
+def item_detail(request, pk):
+    item = get_object_or_404(Items, pk=pk)
+    return render(request, "items/detail.html", {'item': item})
+
 class SignupView2(generics.CreateAPIView):
     serializer_class = SignUpSerializer
     parser_classes = [MultiPartParser, FormParser]

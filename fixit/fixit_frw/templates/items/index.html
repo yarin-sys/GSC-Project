@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Registration</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-color: rgb(255, 240, 219);
+        font-family: 'Mulish', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      {% block content %}
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h1 class="mb-4 text-center fw-bold bg-warning">Items</h1>
+
+            {% if latest_item_list %}
+              <ul class="list-group">
+                {% for item in latest_item_list %}
+                  <li class="list-group-item">
+                      {# <a href="/item-idx/{{ item.id }}" class="text-decoration-none">#}
+                      <a href="{% url 'item_detail_idx' item.id %}" class="text-decoration-none">
+                      {{ item.item_name }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <div class="alert alert-warning mt-3" role="alert">
+                No items found.
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endblock content %}
+    </div>
+
+    <!-- Bootstrap JS (optional for dynamic components) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
