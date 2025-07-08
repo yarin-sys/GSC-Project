@@ -18,7 +18,7 @@ urlpatterns = [
     path("items/", views.ItemsView.as_view(), name="item_list"),
     path("item/<int:pk>", views.ItemDetailView.as_view(), name="item_detail"),
 
-    path("item-idx/",  views.index, name="item_idx"),
+    path("item-idx/",  views.IndexView.as_view(), name="item_idx"),
     path("item-idx/<int:pk>", views.item_detail, name="item_detail_idx"),
 ]
 

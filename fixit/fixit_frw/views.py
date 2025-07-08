@@ -1,21 +1,38 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
-from django.views import generic
+from django.urls import reverse
+from django.views import generic, View
 from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
+
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
+from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignUpSerializer
+from .models import Items
+
+from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
+from api.permissions import IsStaffOrOwner
+
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 # from rest_framework.views import APIView
-from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 from rest_framework import generics,status, permissions
-from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignUpSerializer
-from .models import Items
 from rest_framework.permissions import AllowAny
-from api.permissions import IsStaffOrOwner
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
+def redirect_login(request):
+    return redirect('login')
+
+@login_required
 def index(request):
     latest_item_list = Items.objects.order_by('-created')[:5]
     # template = loader.get_template("items/index.html")
@@ -25,13 +42,15 @@ def index(request):
     # return HttpResponse(template.render(context, request))
     return render(request, "items/index.html", context)
 
-class IndexView(generic.ListView):
+
+class IndexView(LoginRequiredMixin, UserQuerySetMixin, ListView):
+    model = Items
     template_name = "items/index.html"
-    context_object_name = "latest_item_list"
+    context_object_name = 'latest_item_list'
+    paginate_by = 5
 
     def get_queryset(self):
-        queryset = Items.objects.order_by('-created')[:5]
-        return queryset
+        return super().get_queryset().order_by('-created')
 
 def item_detail(request, pk):
     item = get_object_or_404(Items, pk=pk)
@@ -57,11 +76,11 @@ def user_login(request):
         if user:
             login(request, user)
             messages.success(request, "Login berhasil")
-            return redirect("http://localhost:8000/")  # Ganti dengan halaman tujuan setelah login
+            return redirect(reverse('fixit_frw:item_idx'))  # Ganti dengan halaman tujuan setelah login
         else:
             messages.error(request, "Username atau password salah")
     
-    return render(request, "login.html")
+    return render(request, "registration/login.html")
 
 # Default sign up using django templates
 def authView(request):
@@ -69,7 +88,7 @@ def authView(request):
         form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('http://127.0.0.1:5500/signup-login/login/index.html')
+            return redirect('/login')
     else:
         form = CustomUserCreationForm()
     return render(request, "registration/signup.html", {"form" : form})

@@ -16,7 +16,7 @@ User = get_user_model()
 class SignupTest(APITestCase):
 
     def setUp(self):
-        self.signup_url = reverse('SignUpView')
+        self.signup_url = reverse('fixit_frw:SignUpView')
         # Create a test address for signup
         self.test_address = Address.objects.create(
             province='Jawa Tengah',
@@ -215,7 +215,7 @@ class UserDetailTest(APITestCase):
             address_id=self.test_address1,
             profile_pict=self.create_test_image()
         )
-        self.user_detail_url = reverse('user-detail', kwargs={'pk': self.user.pk})
+        self.user_detail_url = reverse('fixit_frw:user-detail', kwargs={'pk': self.user.pk})
 
     def create_test_image(self):
         """Helper method to create test image"""
@@ -342,8 +342,8 @@ class ItemDetailTest(APITestCase):
             user=self.other_user
         )
 
-        self.item_detail_url = reverse('item_detail', kwargs={'pk': self.user_item.pk})
-        self.other_item_url = reverse('item_detail', kwargs={'pk': self.other_item.pk})
+        self.item_detail_url = reverse('fixit_frw:item_detail', kwargs={'pk': self.user_item.pk})
+        self.other_item_url = reverse('fixit_frw:item_detail', kwargs={'pk': self.other_item.pk})
 
     def create_test_image(self):
         """Helper method untuk membuat test image"""
@@ -530,7 +530,7 @@ class ItemListTest(APITestCase):
             user=self.other_user
         )
 
-        self.item_list_url = reverse('item_list')
+        self.item_list_url = reverse('fixit_frw:item_list')
 
     def create_test_image(self):
         """Helper method untuk membuat test image"""
@@ -548,6 +548,14 @@ class ItemListTest(APITestCase):
         """Test akses list tanpa login"""
         response = self.client.get(self.item_list_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_get_item_idx_unauthorized(self):
+        """Test akses index item tanpa login harus redirect ke login"""
+        response = self.client.get(reverse('fixit_frw:item_idx'))
+        self.assertRedirects(
+            response,
+            f"/accounts/login/?next={reverse('fixit_frw:item_idx')}"
+        )
 
     def test_get_item_list_by_user(self):
         """User hanya melihat item miliknya sendiri"""
