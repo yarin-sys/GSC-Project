@@ -1,6 +1,8 @@
 
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
+
+import fixit_frw.view
 from . import views
 
 app_name = 'fixit_frw'
@@ -18,8 +20,12 @@ urlpatterns = [
     path("items/", views.ItemsView.as_view(), name="item_list"),
     path("item/<int:pk>", views.ItemDetailView.as_view(), name="item_detail"),
 
-    path("item-idx/",  views.IndexView.as_view(), name="item_idx"),
+    path("item-idx/", fixit_frw.view.IndexView.as_view(), name="item_idx"),
     path("item-idx/<int:pk>", views.item_detail, name="item_detail_idx"),
+
+    path("kuadrat/", views.KuadratView.as_view(), name="kuadrat"),
+
+    path('analitic/price/', views.LinearRegressionPriceView.as_view(), name="analitic_price"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

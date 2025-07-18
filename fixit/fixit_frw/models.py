@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Q
+from django.utils import timezone
+
 from fixit_frw.utils.generator import generate_short_id_from_name, generate_custom_id_with_suffix
 import  uuid
 
@@ -90,9 +92,9 @@ class Items(models.Model):
 
 class Address(models.Model):
     address_id = models.CharField(max_length=20, primary_key=True, editable=False)
-    province = models.CharField(max_length=20, null=True, blank=True)
-    city = models.CharField(max_length=20, null=True, blank=True)
-    street = models.CharField(max_length=20, null=True, blank=True)
+    province = models.CharField(max_length=50, null=True, blank=True)
+    city = models.CharField(max_length=50, null=True, blank=True)
+    street = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         db_table = 'address'
@@ -102,8 +104,20 @@ class Address(models.Model):
             self.address_id = generate_custom_id_with_suffix(self.city)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.street + " " + self.city
+
 class Payments(models.Model):
+    class Method(models.TextChoices):
+        GOPAY = "GOPAY"
+        TRANSFER = "TRANSFER"
+        COD = "COD"
+
     payment_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date = models.DateTimeField(auto_now_add=True)
+    method = models.CharField(default="COD", choices=Method.choices)
+    amount = models.BigIntegerField(null=True, blank=True)
+
 
     class Meta:
         db_table = 'payments'

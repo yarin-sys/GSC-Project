@@ -1,9 +1,14 @@
 from django.test import TestCase
+
+from django.utils import timezone
+from datetime import datetime, timedelta
+
 from django.contrib.auth import get_user_model
 from PIL import Image
 import io
-from .models import Items, User, Address
+from .models import Items, User, Address, Payments
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase
@@ -277,7 +282,8 @@ class UserDetailTest(APITestCase):
     def test_permission_denied_for_non_staff(self):
         """Non-staff user tidak boleh mengakses user lain"""
         self.client.force_authenticate(user=self.user)
-        other_user_url = reverse('user-detail', kwargs={'pk': self.other_user.pk})
+        # other_user_url = reverse('user-detail', kwargs={'pk': self.other_user.pk})
+        other_user_url = f"/user/{self.other_user.pk}"
         response = self.client.get(other_user_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -640,10 +646,89 @@ class ItemListTest(APITestCase):
         response = self.client.post(self.item_list_url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    # def test_create_item_without_required_fields(self):
-    #     """Test validasi field yang required"""
-    #     self.client.force_authenticate(user=self.user)
-    #     # Missing required fields: picture and deskripsi
-    #     data = {
-    #         'item_name': 'Incomplete Item',
-    #         'rate': Items.Level.LOW
+    def test_create_item_without_required_fields(self):
+        """Test validasi field yang required"""
+        self.client.force_authenticate(user=self.user)
+        # Missing required fields: picture and deskripsi
+        data = {
+            'item_name': 'Incomplete Item',
+            'rate': Items.Level.LOW
+        }
+        response = self.client.post(self.item_list_url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class PaymentTest(APITestCase):
+
+    def setUp(self):
+        self.time_before_create = timezone.now()
+        self.payment1 = Payments.objects.create(
+            method='GOPAY',
+            amount=30000
+        )
+
+    def test_get_first_payment(self):
+        payment = Payments.objects.first()
+
+        self.assertIsNotNone(payment.payment_id)
+        self.assertEqual(payment, self.payment1)
+        self.assertEqual(payment.amount, 30000)
+        self.assertEqual(payment.method, 'GOPAY')
+
+    def test_auto_date(self):
+        """Test auto generate time"""
+        payment = Payments.objects.first()
+        after_create = timezone.now()
+
+        self.assertLessEqual(payment.date, after_create)
+        self.assertGreaterEqual(payment.date, self.time_before_create)
+        self.assertIsNotNone(payment.date)
+
+    def test_method_choices(self):
+        """Test semua pilihan method payment"""
+        # Test GOPAY
+        payment_gopay = Payments.objects.create(
+            method=Payments.Method.GOPAY,
+            amount=50000
+        )
+        self.assertEqual(payment_gopay.method, "GOPAY")
+
+        # Test COD
+        payment_cod = Payments.objects.create(
+            method=Payments.Method.COD,
+            amount=25000
+        )
+        self.assertEqual(payment_cod.method, "COD")
+
+    def test_invalid_method_choice(self):
+            """Test error ketika menggunakan method yang tidak valid"""
+            with self.assertRaises(ValidationError):
+                payment = Payments(method="INVALID_METHOD", amount=100000)
+                payment.full_clean()
+
+    def test_multiple_payments_creation(self):
+        """Test membuat beberapa payment sekaligus"""
+        payments_data = [
+            {'method': Payments.Method.GOPAY, 'amount': 50000},
+            {'method': Payments.Method.TRANSFER, 'amount': 75000},
+            {'method': Payments.Method.COD, 'amount': 100000},
+        ]
+
+        for data in payments_data:
+            Payments.objects.create(**data)
+
+        self.assertEqual(Payments.objects.count(), 4)
+
+        # Pastikan semua payment_id unik
+        payment_ids = list(Payments.objects.values_list('payment_id', flat=True))
+        self.assertEqual(len(payment_ids), len(set(payment_ids)))
+
+class MathTest(APITestCase):
+    def test_kuadrat(self):
+        response = self.client.post(reverse('fixit_frw:kuadrat'), {'value': 100}, format='json')
+        self.assertEqual(response.data['kuadrat'], 10000)
+
+    def test_kuadrat_invalid(self):
+        response = self.client.post(reverse('fixit_frw:kuadrat'), {'value': 'abc'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {'error': 'value harus berupa angka'})

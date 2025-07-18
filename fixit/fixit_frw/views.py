@@ -1,20 +1,16 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.contrib import messages
 from django.urls import reverse
-from django.views import generic, View
 from django.contrib.auth import authenticate, login, get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from rest_framework.views import APIView
 
 from .forms import CustomUserCreationForm,  CustomUserChangeForm
 from .serializers import ItemsSerializer, UserSerializer, ItemOrdeersSerializer, SignUpSerializer
 from .models import Items
+from .utils.math_utils import hitung_kuadrat, hitung_regresi_harga
 
-from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
+from api.mixins import UserQuerySetMixin
 from api.permissions import IsStaffOrOwner
 
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -42,15 +38,6 @@ def index(request):
     # return HttpResponse(template.render(context, request))
     return render(request, "items/index.html", context)
 
-
-class IndexView(LoginRequiredMixin, UserQuerySetMixin, ListView):
-    model = Items
-    template_name = "items/index.html"
-    context_object_name = 'latest_item_list'
-    paginate_by = 5
-
-    def get_queryset(self):
-        return super().get_queryset().order_by('-created')
 
 def item_detail(request, pk):
     item = get_object_or_404(Items, pk=pk)
@@ -93,6 +80,31 @@ def authView(request):
         form = CustomUserCreationForm()
     return render(request, "registration/signup.html", {"form" : form})
 
+class KuadratView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request, *args, **kwargs):
+        value = request.data.get('value')
+        if value is not None:
+            try:
+                value = int(value)
+                result = hitung_kuadrat(value)
+                return Response({'kuadrat': result})
+            except (ValueError, TypeError):
+                return Response({'error': 'value harus berupa angka'}, status=400)
+        return Response({'error': 'value tidak diberikan'}, status=400)
+
+class LinearRegressionPriceView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def get(self, request, *args, **kwargs):
+        try:
+            hasil = hitung_regresi_harga()
+            return Response({'regression': hasil})
+        except ValueError as e:
+            return Response({'error': str(e)}, status=400)
 
 # Sign Up from separated client
 class SignUpView(generics.ListCreateAPIView):
