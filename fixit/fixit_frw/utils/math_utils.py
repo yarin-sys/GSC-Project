@@ -6,12 +6,6 @@ from sklearn.metrics import mean_squared_error, r2_score
 def hitung_kuadrat(value: int) -> int:
     return value ** 2
 
-
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score, mean_squared_error
-
-
 def hitung_regresi_harga() -> dict:
     # Ambil data dari database sebagai list flat
     price_offered = list(Items.objects.values_list('price_offered', flat=True))
