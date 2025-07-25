@@ -484,7 +484,7 @@ class ItemListTest(APITestCase):
             username='user1',
             password='testpass123',
             email='user1@test.com',
-            address_id=self.test_address1,
+            address=self.test_address1,
             profile_pict=self.create_test_image()
         )
         # User lain
@@ -492,7 +492,7 @@ class ItemListTest(APITestCase):
             username='user2',
             password='testpass123',
             email='user2@test.com',
-            address_id=self.test_address2,
+            address=self.test_address2,
             profile_pict=self.create_test_image()
         )
         # Staff user
@@ -501,7 +501,7 @@ class ItemListTest(APITestCase):
             password='testpass123',
             email='staff@test.com',
             is_staff=True,
-            address_id=self.test_address1,
+            address=self.test_address1,
             profile_pict=self.create_test_image()
         )
 
@@ -512,7 +512,7 @@ class ItemListTest(APITestCase):
             picture=self.create_test_image(),
             rate=Items.Level.LOW,
             price_offered=50000,
-            address_id=self.test_address1,
+            address=self.test_address1,
             user=self.user
         )
         self.user_item2 = Items.objects.create(
@@ -523,7 +523,7 @@ class ItemListTest(APITestCase):
             price_offered=300000,
             fixed=True,
             price_final=250000,
-            address_id=self.test_address1,
+            address=self.test_address1,
             user=self.user
         )
         self.other_item = Items.objects.create(
@@ -532,7 +532,7 @@ class ItemListTest(APITestCase):
             picture=self.create_test_image(),
             rate=Items.Level.DANGEROUS,
             price_offered=150000,
-            address_id=self.test_address2,
+            address=self.test_address2,
             user=self.other_user
         )
 
@@ -610,12 +610,13 @@ class ItemListTest(APITestCase):
             'picture': test_image,
             'rate': Items.Level.MODERATE,
             'price_offered': 75000,
-            'address_id': self.test_address1.address_id
+            'address': self.test_address1
         }
         response = self.client.post(self.item_list_url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['item_name'], 'New Item')
         self.assertEqual(response.data['rate'], Items.Level.MODERATE)
+        self.assertEqual(response.data['address']['street'],  "Jalan Pemuda")
 
     def test_create_item_by_staff(self):
         """Staff dapat membuat item"""
@@ -627,11 +628,12 @@ class ItemListTest(APITestCase):
             'picture': test_image,
             'rate': Items.Level.CONSIDERABLE,
             'price_offered': 90000,
-            'address_id': self.test_address1.address_id
+            'address': self.test_address1
         }
         response = self.client.post(self.item_list_url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['item_name'], 'Staff Item')
+        self.assertEqual(response.data['address']['street'], "Jalan Pemuda")
 
     def test_create_item_unauthorized(self):
         """User tanpa login tidak dapat membuat item"""
@@ -641,7 +643,7 @@ class ItemListTest(APITestCase):
             'deskripsi': 'Deskripsi unauthorized',
             'picture': test_image,
             'rate': Items.Level.LOW,
-            'address_id': self.test_address1.address_id
+            'address': self.test_address1
         }
         response = self.client.post(self.item_list_url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -656,6 +658,82 @@ class ItemListTest(APITestCase):
         }
         response = self.client.post(self.item_list_url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_input(self):
+        self.client.force_authenticate(user=self.user)
+        test_image = self.create_test_image()
+        data = {
+            'item_name': 'Unauthorized Item',
+            'deskripsi': 'Deskripsi unauthorized',
+            'picture': test_image,
+            'rate': Items.Level.LOW,
+            'address_id': self.test_address1.address_id,
+            'price_offered': -9,
+        }
+        response = self.client.post(self.item_list_url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        # Cek field dan pesan error-nya
+        self.assertIn('price_offered', response.data)
+        self.assertEqual(
+            str(response.data['price_offered'][0]),
+            "price offered must be greater than 0"
+        )
+
+    def test_item_with_payment_address(self):
+        self.client.force_authenticate(user=self.user)
+        test_image = self.create_test_image()
+        data = {
+            'item_name': 'Payment Item',
+            'deskripsi': 'Deskripsi item payment',
+            'picture': test_image,
+            'rate': Items.Level.LOW,
+            'address_data.province': 'Jawa Utara',
+            'address_data.city': 'Semarang',
+            'address_data.street': 'Jalan Terboyo 45',
+            'payment_data.method' : "GOPAY",
+            'payment_data.amount' : 150000
+        }
+
+        response = self.client.post(self.item_list_url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        #  test get
+        response = self.client.get(self.item_list_url)
+
+        self.assertEqual(response.data[0]['address']['street'], 'Jalan Terboyo 45')
+        self.assertEqual(response.data[0]['address']['province'], 'Jawa Utara')
+
+        self.assertEqual(response.date[0]['payment']['method'], 'GOPAY')
+        self.assertEqual(response.date[0]['payment']['amount'], 150000)
+
+
+
+        # Ambil item yang baru dibuat
+        # item = Items.objects.get(item_name='Payment Item')
+        #
+        # # Pastikan item punya relasi payment
+        # self.assertIsNotNone(item.payment)
+        # self.assertIsNotNone(item.address)
+        #
+        # # Cek isi payment terkait
+        # payment = Payments.objects.get(payment_id=item.payment_id)
+        #
+        # self.assertEqual(item.payment.method, payment.method)
+        # self.assertEqual(item.payment.amount, payment.amount)
+        # self.assertEqual(item.payment.amount, 150000)
+        # self.assertEqual(item.payment.method, "GOPAY")
+        #
+        # # Cek Alamat
+        # address = Address.objects.get(address_id=item.address_id)
+        #
+        # self.assertEqual(address.province, "Jawa Utara")
+        # self.assertEqual(address.city, "Semarang")
+        # self.assertEqual(address.street, "Jalan Terboyo 45")
+
+
+        # Cek bahwa user adalah pemilik item
+        # self.assertEqual(item.user, self.user)
 
 
 class PaymentTest(APITestCase):

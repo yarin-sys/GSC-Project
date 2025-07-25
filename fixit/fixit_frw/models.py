@@ -9,7 +9,7 @@ import  uuid
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=False, blank=False)
     phone = models.CharField(null=True, blank=True, unique=True, max_length=20)
-    address_id = models.ForeignKey('Address', on_delete=models.CASCADE, related_name='user', blank=True, null=True)
+    address = models.ForeignKey('Address', on_delete=models.CASCADE, related_name='user', blank=True, null=True)
     profile_pict = models.ImageField(upload_to='profile/', null=False, blank=False)
 
     def delete(self, *args, **kwargs):
@@ -54,9 +54,10 @@ class Items(models.Model):
     picture = models.ImageField(upload_to='items/', null=False, blank=False)
     rate = models.IntegerField(default=2, choices=Level.choices)
     deskripsi = models.TextField(blank=False, null=False)
-    address_id = models.ForeignKey('Address', on_delete=models.CASCADE, related_name='items')
+    address = models.ForeignKey('Address', on_delete=models.CASCADE, related_name='items', null=True, blank=True)
     price_offered = models.BigIntegerField(null=True, blank=True)
     price_final = models.BigIntegerField(null=True, blank=True)
+    payment = models.ForeignKey('Payments', on_delete=models.CASCADE, related_name='items', null=True, blank=True)
     fixed = models.BooleanField(default=False, null=False, blank=False)
     
     objects = ItemManager()
@@ -64,15 +65,6 @@ class Items(models.Model):
     class Meta:
         ordering = ['created']
         db_table = 'items'
-
-    @property
-    def address(self):
-        if self.address_id:
-            try:
-                return Address.objects.get(address_id=self.address_id)
-            except Address.DoesNotExist:
-                return None
-        return None
     
     def __str__(self):
         if self.fixed:
@@ -82,8 +74,8 @@ class Items(models.Model):
         return f"{self.item_name}({self.user } => {self.created})[{msg}]"
     
     def save(self, *args, **kwargs):
-        if not self.address_id and self.user:
-            self.address_id = self.user.address_id
+        if not self.address and self.user and self.user.address:
+            self.address = self.user.address
         super().save(*args, **kwargs)
         
     def delete(self, *args, **kwargs):

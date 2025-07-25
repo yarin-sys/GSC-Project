@@ -8,7 +8,7 @@ class CustomUserCreationForm(UserCreationForm):
     profile_pict = forms.ImageField(required=False)
     class Meta:
         model = User
-        fields = ("username", "email", "phone","profile_pict" ,"address_id", "password1", "password2")
+        fields = ("username", "email", "phone","profile_pict" ,"address", "password1", "password2")
         
 class  CustomUserChangeForm(UserCreationForm):
     profile_pict = forms.ImageField(required=False)
@@ -16,4 +16,4 @@ class  CustomUserChangeForm(UserCreationForm):
     password2 = None #hiding password2
     class Meta:
         model = User
-        fields = ("username", "email", "phone","profile_pict" ,"address_id")
+        fields = ("username", "email", "phone","profile_pict" ,"address")
