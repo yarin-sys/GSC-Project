@@ -698,42 +698,62 @@ class ItemListTest(APITestCase):
         response = self.client.post(self.item_list_url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        #  test get
-        response = self.client.get(self.item_list_url)
-
-        self.assertEqual(response.data[0]['address']['street'], 'Jalan Terboyo 45')
-        self.assertEqual(response.data[0]['address']['province'], 'Jawa Utara')
-
-        self.assertEqual(response.date[0]['payment']['method'], 'GOPAY')
-        self.assertEqual(response.date[0]['payment']['amount'], 150000)
-
-
-
         # Ambil item yang baru dibuat
-        # item = Items.objects.get(item_name='Payment Item')
-        #
-        # # Pastikan item punya relasi payment
-        # self.assertIsNotNone(item.payment)
-        # self.assertIsNotNone(item.address)
-        #
-        # # Cek isi payment terkait
-        # payment = Payments.objects.get(payment_id=item.payment_id)
-        #
-        # self.assertEqual(item.payment.method, payment.method)
-        # self.assertEqual(item.payment.amount, payment.amount)
-        # self.assertEqual(item.payment.amount, 150000)
-        # self.assertEqual(item.payment.method, "GOPAY")
-        #
-        # # Cek Alamat
-        # address = Address.objects.get(address_id=item.address_id)
-        #
-        # self.assertEqual(address.province, "Jawa Utara")
-        # self.assertEqual(address.city, "Semarang")
-        # self.assertEqual(address.street, "Jalan Terboyo 45")
+        item = Items.objects.get(item_name='Payment Item')
 
+        # Pastikan item punya relasi payment
+        self.assertIsNotNone(item.payment)
+        self.assertIsNotNone(item.address)
+
+        # Cek isi payment terkait
+        payment = Payments.objects.get(payment_id=item.payment_id)
+
+        self.assertEqual(item.payment.method, payment.method)
+        self.assertEqual(item.payment.amount, payment.amount)
+        self.assertEqual(item.payment.amount, 150000)
+        self.assertEqual(item.payment.method, "GOPAY")
+
+        # Cek Alamat
+        address = Address.objects.get(address_id=item.address_id)
+
+        self.assertEqual(address.province, "Jawa Utara")
+        self.assertEqual(address.city, "Semarang")
+        self.assertEqual(address.street, "Jalan Terboyo 45")
+        self.assertEqual(address.street, item.address.street)
 
         # Cek bahwa user adalah pemilik item
-        # self.assertEqual(item.user, self.user)
+        self.assertEqual(item.user, self.user)
+
+    def test_item_with_payment_address_invalid(self):
+        self.client.force_authenticate(user=self.user)
+        test_image = self.create_test_image()
+        data = {
+            'item_name': 'Payment Item',
+            'deskripsi': 'Deskripsi item payment',
+            'picture': test_image,
+            'rate': Items.Level.LOW,
+            'price_offered' : 200000,
+            'address_data.province': 'Jawa Utara',
+            'address_data.city': 'Semarang',
+            'address_data.street': 'Jalan Terboyo 45',
+            'payment_data.method' : "GOPAY",
+            'payment_data.amount' : 150000
+        }
+
+        response = self.client.post(self.item_list_url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Ambil item yang baru dibuat
+        item = Items.objects.get(item_name='Payment Item')
+
+        # mengeset price final
+        item.price_final = item.price_offered
+        item.save()
+
+        # Test error price final dan amount
+
+        # Cek bahwa user adalah pemilik item
+        self.assertEqual(item.user, self.user)
 
 
 class PaymentTest(APITestCase):

@@ -25,17 +25,20 @@ class PaymentSerializer(serializers.ModelSerializer):
         read_only_fields = ['payment_id', 'date']
 
 class SignUpSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(write_only=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True, validators=[validate_password], style={'input_type': 'password'})
+    password2 = serializers.CharField(write_only=True, style={'input_type': 'password'})
+    # profile_pict = serializers.ImageField(required=True)
+
+    address_data = AddressSerializer(write_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone', 'address_id', 'profile_pict', 'password1', 'password2']
+        fields = ['username', 'email', 'phone', 'profile_pict', 'password1', 'password2', 'address_data']
         extra_kwargs = {
             'email': {'required': True},
             'username': {'required': True},
             'phone': {'required': True},
-            'address_id': {'required': True},
+            'address_data': {'required': True},
             'profile_pict': {'required': True},
         }
 
@@ -61,6 +64,10 @@ class SignUpSerializer(serializers.ModelSerializer):
         # Hapus password2 karena tidak perlu disimpan
         validated_data.pop('password2', None)
         password = validated_data.pop('password1')
+        address_data = validated_data.pop('address_data')
+
+        # Make address data first
+        address = Address.objects.create(**address_data)
 
         # Buat user
         user = User.objects.create_user(
@@ -68,7 +75,7 @@ class SignUpSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=password,
             phone=validated_data.get('phone'),
-            address_id=validated_data.get('address_id'),
+            address=address,
             profile_pict=validated_data.get('profile_pict')
         )
         return user
@@ -190,10 +197,32 @@ class ItemOrdeersSerializer(serializers.ModelSerializer):
                 item.save()
 
         return item
+
+    def validate(self, attrs):
+        price_final = self.instance.price_final if self.instance else None
+        payment_data = attrs.get('payment_data')
+
+        if price_final is not None and payment_data:
+            amount = payment_data.get('amount', 0)
+            if amount < price_final:
+                raise serializers.ValidationError({
+                    'payment_data': {
+                        'amount': [f"Jumlah pembayaran tidak boleh kurang dari price_final {price_final}."]
+                    }
+                })
+            elif amount > price_final:
+                raise serializers.ValidationError({
+                    'payment_data': {
+                        'amount': [f"Jumlah pembayaran lebih dari price_final {price_final}."]
+                    }
+                })
+
+        return attrs
     
     def validate_price_offered(self, value):
         if value < 0:
             raise serializers.ValidationError("price offered must be greater than 0")
+
         return value
     
             
